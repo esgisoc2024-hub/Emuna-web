@@ -1,0 +1,3 @@
+Guardá aquí tu landing como: public/landing.html
+(es el HTML que ya tenés, con los 2 cambios del formulario que te indicó Claude).
+Este archivo LEEME.txt se puede borrar.
