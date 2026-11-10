@@ -11,9 +11,11 @@ export async function POST(req) {
   const row = { name, email, phone: one(d.phone, 40) || null, company: one(d.company, 120) || null, service: one(d.service, 80) || null, notes: message, source: 'web' };
   const { error } = await admin().from('clients').insert(row);
   if (error) return NextResponse.json({ error: 'No se pudo guardar' }, { status: 500 });
-  await Promise.allSettled([
+  const sent = await Promise.allSettled([
     send({ to: process.env.NOTIFY_EMAIL, subject: `Nuevo contacto: ${name}`, text: `${name} (${email})\n${row.company || ''} ${row.phone || ''}\nÁrea: ${row.service || '-'}\n\n${message}` }),
     send({ to: email, subject: 'Recibimos tu consulta · EMUNÁ', text: `Hola ${name},\n\nGracias por escribirnos. Revisamos tu consulta y te respondemos en menos de 48 horas hábiles.\n\nEquipo EMUNÁ` })
   ]);
-  return NextResponse.json({ ok: true });
+  const mailErrors = sent.map(r => r.status === 'rejected' ? String(r.reason) : r.value?.error ? JSON.stringify(r.value.error) : null).filter(Boolean);
+  if (mailErrors.length) console.error('[contact] Resend:', mailErrors);
+  return NextResponse.json({ ok: true, mail: mailErrors.length ? 'error' : 'ok' });
 }
