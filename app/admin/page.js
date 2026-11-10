@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { ROLES, canLogin } from '@/lib/roles';
+import Proposals from './Proposals';
 const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 const STATUS = ['nuevo', 'contactado', 'propuesta enviada', 'ganado', 'perdido'];
 const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -29,7 +30,7 @@ function Login({ notice }) {
 
 export default function Admin() {
   const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('clientes');
-  const [clients, setClients] = useState([]), [props, setProps] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
+  const [clients, setClients] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
   const [role, setRole] = useState(null), [notice, setNotice] = useState(''), [users, setUsers] = useState([]);
   useEffect(() => {
     sb.auth.getSession().then(({ data }) => { setSession(data.session); if (!data.session) setReady(true); });
@@ -45,11 +46,10 @@ export default function Admin() {
     });
   }, [session?.user?.id]);
   const load = async () => {
-    const [a, b, c] = await Promise.all([
+    const [a, c] = await Promise.all([
       sb.from('clients').select('*').order('created_at', { ascending: false }),
-      sb.from('proposals').select('*, clients(name)').order('sent_at', { ascending: false }),
       sb.from('cases').select('*').order('created_at', { ascending: false })]);
-    setClients(a.data || []); setProps(b.data || []); setCases(c.data || []);
+    setClients(a.data || []); setCases(c.data || []);
   };
   const api = (path, opts = {}) => fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}`, ...(opts.headers || {}) } });
   const loadUsers = async () => { const r = await api('/api/users'); if (r.ok) setUsers(await r.json()); };
@@ -82,13 +82,6 @@ export default function Admin() {
   const setStatus = async (id, status) => { await sb.from('clients').update({ status }).eq('id', id); load(); };
   const delClient = async id => { if (confirm('¿Eliminar este cliente y sus propuestas?')) { await sb.from('clients').delete().eq('id', id); load(); } };
 
-  const sendProposal = async e => {
-    const form = e.currentTarget; e.preventDefault(); flash('Enviando…');
-    const r = await api('/api/proposals/send', { method: 'POST', body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-    const j = await r.json();
-    if (!r.ok) return flash('Error: ' + (j.error || 'no se envió'));
-    form.reset(); flash('Correo enviado.'); load();
-  };
 
   const addCase = async e => {
     const form = e.currentTarget; e.preventDefault(); flash('Guardando…');
@@ -114,7 +107,7 @@ export default function Admin() {
         <h1 style={{ fontFamily: 'var(--display)', letterSpacing: '.14em' }}>EMUNÁ<span style={{ color: 'var(--gold)' }}>.</span> <small style={{ fontSize: '.9rem', letterSpacing: 0 }}>Panel</small></h1>
         <div><a className="btn ghost sm" href="/">Ver sitio</a> <button className="btn ghost sm" onClick={() => sb.auth.signOut()}>Salir</button></div>
       </header>
-      <div className="tabs">{[['clientes', 'Clientes'], ['propuestas', 'Propuestas y correos'], ['casos', 'Casos de éxito'], ['usuarios', 'Usuarios y permisos']].map(([k, n]) => <button key={k} className={'btn sm' + (tab === k ? ' on' : '')} onClick={() => setTab(k)}>{n}</button>)}</div>
+      <div className="tabs">{[['clientes', 'Clientes'], ['propuestas', 'Propuestas (CRM)'], ['casos', 'Casos de éxito'], ['usuarios', 'Usuarios y permisos']].map(([k, n]) => <button key={k} className={'btn sm' + (tab === k ? ' on' : '')} onClick={() => setTab(k)}>{n}</button>)}</div>
 
       {tab === 'clientes' && <>
         <form className="panel f" onSubmit={addClient}>
@@ -133,19 +126,7 @@ export default function Admin() {
         </div>
       </>}
 
-      {tab === 'propuestas' && <>
-        <form className="panel f" onSubmit={sendProposal}>
-          <h3 className="full">Enviar propuesta o correo</h3>
-          <F label="Cliente" full><select name="clientId" required><option value="">Elegí un cliente</option>{clients.filter(c => c.email).map(c => <option key={c.id} value={c.id}>{c.name} — {c.email}</option>)}</select></F>
-          <F label="Asunto"><input name="subject" required /></F><F label="Monto (opcional)"><input name="amount" /></F>
-          <F label="Mensaje" full><textarea name="body" required style={{ minHeight: 220 }} defaultValue={'Hola,\n\nTe comparto la propuesta para tu proyecto:\n\n- Alcance:\n- Plazos:\n- Inversión:\n\nQuedo atenta a tus comentarios.\n\nEquipo EMUNÁ'} /></F>
-          <button className="btn full">Enviar correo</button>
-        </form>
-        <div className="panel"><h3>Enviados ({props.length})</h3>
-          {props.map(p => <div className="row" key={p.id}><div><strong>{p.subject}</strong><br /><small>{p.clients?.name} · {new Date(p.sent_at).toLocaleDateString('es-AR')} {p.amount && '· ' + p.amount}</small></div></div>)}
-          {!props.length && <p>Todavía no enviaste propuestas.</p>}
-        </div>
-      </>}
+      {tab === 'propuestas' && <Proposals sb={sb} api={api} clients={clients} flash={flash} onClientsChange={load} />}
 
       {tab === 'casos' && <>
         <form className="panel f" onSubmit={addCase}>

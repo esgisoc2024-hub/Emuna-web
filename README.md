@@ -16,3 +16,8 @@ Creá la API key. Para escribirle a tus clientes verificá tu dominio (registros
 Subí esta carpeta a tu repo de GitHub, importalo en Vercel y cargá las variables de `.env.example`. `SUPABASE_SERVICE_ROLE_KEY` y `RESEND_API_KEY` nunca van al código. El acceso al panel ya no depende de `ADMIN_EMAIL`: lo define el rol de cada usuario en la tabla `user_roles`.
 
 Panel: `/admin` · Casos públicos: `/casos`
+
+## 5. Propuestas con Claude
+1. Ejecutá `supabase/proposals_crm.sql` en Supabase.
+2. En Vercel cargá `ANTHROPIC_API_KEY` (la creás en console.anthropic.com). Opcional: `ANTHROPIC_MODEL` para cambiar el modelo.
+3. En el panel, pestaña "Propuestas (CRM)": escribile a Claude qué necesitás y arma la propuesta con el diseño de EMUNÁ. Cada propuesta tiene su página pública en `/propuesta/<código>` y un estado (borrador, enviada, en negociación, aceptada, rechazada).
