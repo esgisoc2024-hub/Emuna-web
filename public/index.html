@@ -111,6 +111,7 @@ footer{background:var(--ink);color:var(--sage);padding:3rem 0 1.5rem;font-size:.
 .mn .w{display:grid;grid-template-columns:1.2fr .8fr;gap:4vw}
 .mn nav a{display:block;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;transition:transform .3s,color .3s}.mn nav a:hover{transform:translateX(10px);color:var(--beige)}
 .mn nav a.sub{font-size:clamp(1.2rem,2.4vw,1.7rem);font-weight:600;letter-spacing:-.01em}
+.mn nav a[hidden]{display:none}.mn nav a.pnl:not([hidden]){display:inline-flex;align-items:center;gap:.5rem;font-size:1.05rem;font-weight:700;letter-spacing:0;line-height:1;border:2px solid var(--paper);border-radius:999px;padding:.75rem 1.3rem;margin-bottom:1.6rem}.mn nav a.pnl:hover{background:var(--paper);color:var(--olive);transform:none}
 .mn nav small{display:block;font-family:var(--hand);font-size:1.6rem;color:var(--beige);margin:1.4rem 0 .2rem}
 .mn aside{align-self:end;font-size:1.05rem}.mn aside p{margin-top:.5rem}.mn aside a{text-decoration:underline;text-underline-offset:4px}
 body.mo{overflow:hidden}body.mo header{background:transparent;box-shadow:none}body.mo .logo,body.mo .burger{color:var(--paper)}body.mo .burger,body.mo .ic{border-color:var(--paper);color:var(--paper)}body.mo .hr .btn{display:none}
@@ -147,6 +148,7 @@ body.mo{overflow:hidden}body.mo header{background:transparent;box-shadow:none}bo
 <div class="hr"><a href="#" class="ic" id="wa2" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.4 5.4 0 0 0 2.6.9 2.2 2.2 0 0 0 1.5-1.1 1.9 1.9 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg></a><a href="#contacto" class="btn" id="ag">Agendar reunión</a><button class="burger" id="bg" aria-expanded="false" aria-controls="mn">Menú</button></div>
 </div></header>
 <div class="mn" id="mn" aria-hidden="true"><div class="w"><nav aria-label="Menú principal">
+<a href="/admin" class="pnl" id="pnl" hidden>Ir al panel de administración →</a>
 <a href="#servicios">Servicios</a><a href="#metodo">Método</a><a href="/casos">Casos</a><a href="#resenas" id="rl" hidden>Reseñas</a><a href="#equipo">Equipo</a><a href="#contacto">Contacto</a>
 <small>Qué hacemos</small><a class="sub" href="#servicios">Marketing y Paid Media</a><a class="sub" href="#servicios">Diseño y desarrollo web</a><a class="sub" href="#servicios">Branding y contenidos</a><a class="sub" href="#servicios">Consultoría y optimización</a><a class="sub" href="#servicios">SEO y posicionamiento</a><a class="sub" href="#servicios">SEM y Google Ads</a>
 </nav><aside><p>Buenos Aires, Argentina</p><p><a href="#" id="mlm">Escribinos por email</a></p><p><a href="#" id="wam" target="_blank" rel="noopener">Escribinos por WhatsApp</a></p><p><a href="#" id="igm" target="_blank" rel="noopener">Instagram</a></p></aside></div></div>
@@ -260,6 +262,9 @@ if(CONFIG.heroVideo){const v=document.createElement("video");v.className="hv";v.
 if(REVIEWS.length){$("#resenas").hidden=false;$("#rl").hidden=false;
  $("#bub").innerHTML=REVIEWS.map(r=>`<figure><blockquote></blockquote><figcaption></figcaption></figure>`).join("");
  document.querySelectorAll("#bub figure").forEach((f,i)=>{f.querySelector("blockquote").textContent=REVIEWS[i].t;f.querySelector("figcaption").textContent=REVIEWS[i].a});}
+/* Botón del panel: solo aparece si hay una sesión iniciada de un administrador */
+try{const k=Object.keys(localStorage).find(x=>/^sb-.+-auth-token$/.test(x)),ss=k&&JSON.parse(localStorage.getItem(k)),tk=ss&&ss.access_token;
+ if(tk&&!(ss.expires_at&&ss.expires_at*1000<Date.now()))fetch("/api/me",{headers:{Authorization:"Bearer "+tk}}).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.panel)$("#pnl").hidden=false}).catch(()=>{})}catch(e){}
 addEventListener("scroll",()=>$("#hd").classList.toggle("s",scrollY>30),{passive:true});
 const mn=$("#mn"),bg=$("#bg");
 function menu(o){mn.classList.toggle("o",o);document.body.classList.toggle("mo",o);bg.setAttribute("aria-expanded",o);bg.textContent=o?"Cerrar":"Menú";mn.setAttribute("aria-hidden",!o)}

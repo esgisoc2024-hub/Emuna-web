@@ -1,11 +1,10 @@
 import { NextResponse } from 'next/server';
 import { admin } from '@/lib/supabase';
 import { send } from '@/lib/email';
+import { requireAdmin } from '@/lib/auth';
 export async function POST(req) {
+  const { res } = await requireAdmin(req); if (res) return res;
   const sb = admin();
-  const token = (req.headers.get('authorization') || '').replace('Bearer ', '');
-  const { data: { user } } = await sb.auth.getUser(token);
-  if (!user || user.email !== process.env.ADMIN_EMAIL) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   const { clientId, subject, body, amount } = await req.json();
   const { data: c } = await sb.from('clients').select('email').eq('id', clientId).single();
   if (!c?.email || !subject || !body) return NextResponse.json({ error: 'Falta cliente, asunto o mensaje' }, { status: 400 });
