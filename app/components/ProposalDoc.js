@@ -33,7 +33,7 @@ export default function ProposalDoc({ p, date }) {
   return (
     <div className="pd">
       <header className="pd-cover">
-        <div className="pd-top"><span className="pd-logo">EMUNÁ<b>.</b></span><span>Estudio creativo · Buenos Aires</span></div>
+        <div className="pd-top"><img className="pd-logo" src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="136" height="40" /><span>Estudio creativo · Buenos Aires</span></div>
         <span className="pd-tag">Propuesta</span>
         <h1>{p.titulo}</h1>
         <dl className="pd-meta">
@@ -51,7 +51,7 @@ export default function ProposalDoc({ p, date }) {
       <footer className="pd-end">
         <p className="pd-thanks">Gracias por pensarnos para tu proyecto.</p>
         <p>Cualquier duda, escribinos a <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> o por <a href={`https://wa.me/${CONTACT.whatsapp}`}>WhatsApp</a>.</p>
-        <span className="pd-logo">EMUNÁ<b>.</b></span>
+        <img className="pd-logo" src="/logo-horizontal.svg" alt="EMUNÁ" width="123" height="36" />
       </footer>
     </div>
   );

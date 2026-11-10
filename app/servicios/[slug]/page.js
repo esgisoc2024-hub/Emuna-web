@@ -30,7 +30,7 @@ export default async function Servicio({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
       <header className="s-hd"><div className="w">
-        <a href="/" className="s-logo" aria-label="EMUNÁ, inicio">EMUNÁ<b>.</b></a>
+        <a href="/" className="s-logo" aria-label="EMUNÁ, inicio"><img src="/logo-horizontal.svg" alt="EMUNÁ" width="157" height="46" /></a>
         <nav aria-label="Principal">
           <a className="lk" href="/#servicios">Servicios</a>
           <a className="lk" href="/casos">Casos</a>

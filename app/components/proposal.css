@@ -5,11 +5,11 @@
 .pd *{box-sizing:border-box}
 .pd h1,.pd h3,.pd h4{font-family:var(--sans);font-weight:800;letter-spacing:-.025em;line-height:1.05;margin:0}
 .pd p,.pd ul,.pd ol,.pd dl,.pd dd{margin:0}
-.pd-logo{font-weight:800;letter-spacing:.06em;font-size:1.3rem}.pd-logo b{color:var(--gold)}
+.pd-logo{display:block;height:40px;width:auto}.pd-end .pd-logo{height:36px}
 .pd-cover{background:var(--olive);color:var(--paper);padding:clamp(1.6rem,5vw,3rem);position:relative}
 .pd-cover::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--beige);opacity:.25}
 .pd-top{display:flex;justify-content:space-between;align-items:center;gap:1rem;font-size:.85rem;opacity:.95;margin-bottom:clamp(2rem,6vw,3.5rem);flex-wrap:wrap}
-.pd-top .pd-logo b{color:var(--beige)}
+
 .pd-tag{font-family:var(--hand);font-size:1.8rem;color:var(--beige);display:inline-block;transform:rotate(-2deg)}
 .pd-cover h1{font-size:clamp(2rem,5.4vw,3.6rem);margin:.4rem 0 1.8rem;max-width:20ch}
 .pd-meta{display:flex;flex-wrap:wrap;gap:.6rem}
