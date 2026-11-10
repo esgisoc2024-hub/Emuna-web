@@ -1,0 +1,143 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+const STATUS = ['nuevo', 'contactado', 'propuesta enviada', 'ganado', 'perdido'];
+const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const F = ({ label, full, children }) => <label className={'l' + (full ? ' full' : '')}>{label}{children}</label>;
+
+function Login() {
+  const [err, setErr] = useState('');
+  const go = async e => {
+    e.preventDefault(); const f = new FormData(e.currentTarget);
+    const { error } = await sb.auth.signInWithPassword({ email: f.get('email'), password: f.get('password') });
+    if (error) setErr('Email o contraseña incorrectos.');
+  };
+  return (
+    <div className="adm" style={{ maxWidth: 420, paddingTop: '6rem' }}>
+      <h1 style={{ fontFamily: 'var(--display)', letterSpacing: '.14em', marginBottom: '1.5rem' }}>EMUNÁ<span style={{ color: 'var(--gold)' }}>.</span></h1>
+      <form className="panel f" onSubmit={go} style={{ gridTemplateColumns: '1fr' }}>
+        <F label="Email"><input name="email" type="email" required autoComplete="email" /></F>
+        <F label="Contraseña"><input name="password" type="password" required autoComplete="current-password" /></F>
+        {err && <small style={{ color: '#a33' }}>{err}</small>}
+        <button className="btn">Entrar al panel</button>
+      </form>
+    </div>
+  );
+}
+
+export default function Admin() {
+  const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('clientes');
+  const [clients, setClients] = useState([]), [props, setProps] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
+  useEffect(() => {
+    sb.auth.getSession().then(({ data }) => { setSession(data.session); setReady(true); });
+    const { data: l } = sb.auth.onAuthStateChange((_, s) => setSession(s));
+    return () => l.subscription.unsubscribe();
+  }, []);
+  const load = async () => {
+    const [a, b, c] = await Promise.all([
+      sb.from('clients').select('*').order('created_at', { ascending: false }),
+      sb.from('proposals').select('*, clients(name)').order('sent_at', { ascending: false }),
+      sb.from('cases').select('*').order('created_at', { ascending: false })]);
+    setClients(a.data || []); setProps(b.data || []); setCases(c.data || []);
+  };
+  useEffect(() => { if (session) load(); }, [session]);
+  const flash = t => { setMsg(t); setTimeout(() => setMsg(''), 4000); };
+  if (!ready) return null;
+  if (!session) return <Login />;
+
+  const addClient = async e => {
+    const form = e.currentTarget; e.preventDefault();
+    const { error } = await sb.from('clients').insert(Object.fromEntries(new FormData(form)));
+    if (error) return flash('No se pudo guardar el cliente.'); form.reset(); flash('Cliente guardado.'); load();
+  };
+  const setStatus = async (id, status) => { await sb.from('clients').update({ status }).eq('id', id); load(); };
+  const delClient = async id => { if (confirm('¿Eliminar este cliente y sus propuestas?')) { await sb.from('clients').delete().eq('id', id); load(); } };
+
+  const sendProposal = async e => {
+    const form = e.currentTarget; e.preventDefault(); flash('Enviando…');
+    const r = await fetch('/api/proposals/send', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+    const j = await r.json();
+    if (!r.ok) return flash('Error: ' + (j.error || 'no se envió'));
+    form.reset(); flash('Correo enviado.'); load();
+  };
+
+  const addCase = async e => {
+    const form = e.currentTarget; e.preventDefault(); flash('Guardando…');
+    const f = new FormData(form), title = f.get('title'), slug = slugify(title) + '-' + Date.now().toString(36);
+    const images = [];
+    for (const file of f.getAll('files')) {
+      if (!file.size) continue;
+      const path = `${slug}/${Date.now()}-${file.name.replace(/[^\w.-]/g, '_')}`;
+      const { error } = await sb.storage.from('cases').upload(path, file);
+      if (error) return flash('Error subiendo ' + file.name);
+      images.push(sb.storage.from('cases').getPublicUrl(path).data.publicUrl);
+    }
+    const row = { slug, title, client: f.get('client'), service: f.get('service'), summary: f.get('summary'), results: f.get('results'), site_url: f.get('site_url'), video_url: f.get('video_url'), images, published: f.get('published') === 'on' };
+    const { error } = await sb.from('cases').insert(row);
+    if (error) return flash('No se pudo guardar el caso.'); form.reset(); flash('Caso guardado.'); load();
+  };
+  const togglePub = async c => { await sb.from('cases').update({ published: !c.published }).eq('id', c.id); load(); };
+  const delCase = async id => { if (confirm('¿Eliminar este caso?')) { await sb.from('cases').delete().eq('id', id); load(); } };
+
+  return (
+    <div className="adm">
+      <header>
+        <h1 style={{ fontFamily: 'var(--display)', letterSpacing: '.14em' }}>EMUNÁ<span style={{ color: 'var(--gold)' }}>.</span> <small style={{ fontSize: '.9rem', letterSpacing: 0 }}>Panel</small></h1>
+        <div><a className="btn ghost sm" href="/">Ver sitio</a> <button className="btn ghost sm" onClick={() => sb.auth.signOut()}>Salir</button></div>
+      </header>
+      <div className="tabs">{[['clientes', 'Clientes'], ['propuestas', 'Propuestas y correos'], ['casos', 'Casos de éxito']].map(([k, n]) => <button key={k} className={'btn sm' + (tab === k ? ' on' : '')} onClick={() => setTab(k)}>{n}</button>)}</div>
+
+      {tab === 'clientes' && <>
+        <form className="panel f" onSubmit={addClient}>
+          <h3 className="full">Nuevo cliente</h3>
+          <F label="Nombre"><input name="name" required /></F><F label="Email"><input name="email" type="email" /></F>
+          <F label="Teléfono"><input name="phone" /></F><F label="Empresa"><input name="company" /></F>
+          <F label="Notas" full><textarea name="notes" style={{ minHeight: 60 }} /></F>
+          <button className="btn full">Guardar cliente</button>
+        </form>
+        <div className="panel"><h3>Clientes y consultas ({clients.length})</h3>
+          {clients.map(c => <div className="row" key={c.id}>
+            <div><strong>{c.name}</strong> <small>{c.company}</small><br /><small>{c.email} {c.phone} · {c.service || 'sin área'} · {c.source}</small>{c.notes && <><br /><small>{c.notes.slice(0, 140)}</small></>}</div>
+            <div><select value={c.status} onChange={e => setStatus(c.id, e.target.value)}>{STATUS.map(s => <option key={s}>{s}</option>)}</select> <button className="btn ghost sm" onClick={() => delClient(c.id)}>Eliminar</button></div>
+          </div>)}
+          {!clients.length && <p>Todavía no hay clientes. Las consultas del formulario aparecen acá.</p>}
+        </div>
+      </>}
+
+      {tab === 'propuestas' && <>
+        <form className="panel f" onSubmit={sendProposal}>
+          <h3 className="full">Enviar propuesta o correo</h3>
+          <F label="Cliente" full><select name="clientId" required><option value="">Elegí un cliente</option>{clients.filter(c => c.email).map(c => <option key={c.id} value={c.id}>{c.name} — {c.email}</option>)}</select></F>
+          <F label="Asunto"><input name="subject" required /></F><F label="Monto (opcional)"><input name="amount" /></F>
+          <F label="Mensaje" full><textarea name="body" required style={{ minHeight: 220 }} defaultValue={'Hola,\n\nTe comparto la propuesta para tu proyecto:\n\n- Alcance:\n- Plazos:\n- Inversión:\n\nQuedo atenta a tus comentarios.\n\nEquipo EMUNÁ'} /></F>
+          <button className="btn full">Enviar correo</button>
+        </form>
+        <div className="panel"><h3>Enviados ({props.length})</h3>
+          {props.map(p => <div className="row" key={p.id}><div><strong>{p.subject}</strong><br /><small>{p.clients?.name} · {new Date(p.sent_at).toLocaleDateString('es-AR')} {p.amount && '· ' + p.amount}</small></div></div>)}
+          {!props.length && <p>Todavía no enviaste propuestas.</p>}
+        </div>
+      </>}
+
+      {tab === 'casos' && <>
+        <form className="panel f" onSubmit={addCase}>
+          <h3 className="full">Nuevo caso</h3>
+          <F label="Título"><input name="title" required /></F><F label="Cliente"><input name="client" /></F>
+          <F label="Servicio"><input name="service" placeholder="Diseño web, Paid media…" /></F><F label="Enlace al sitio"><input name="site_url" type="url" placeholder="https://" /></F>
+          <F label="Enlace de video (YouTube o Vimeo)" full><input name="video_url" type="url" /></F>
+          <F label="Resumen" full><textarea name="summary" style={{ minHeight: 70 }} /></F>
+          <F label="Resultados" full><textarea name="results" style={{ minHeight: 70 }} /></F>
+          <F label="Fotos (la primera es la portada)" full><input name="files" type="file" accept="image/*" multiple /></F>
+          <label className="l"><span><input type="checkbox" name="published" /> Publicar ahora</span></label>
+          <button className="btn full">Guardar caso</button>
+        </form>
+        <div className="panel"><h3>Casos ({cases.length})</h3>
+          {cases.map(c => <div className="row" key={c.id}><div><strong>{c.title}</strong> <small>{c.client}</small><br /><small>{c.published ? 'Publicado' : 'Borrador'} · {c.images?.length || 0} fotos</small></div>
+            <div><button className="btn ghost sm" onClick={() => togglePub(c)}>{c.published ? 'Despublicar' : 'Publicar'}</button> <button className="btn ghost sm" onClick={() => delCase(c.id)}>Eliminar</button></div></div>)}
+          {!cases.length && <p>Cargá tu primer caso con enlace, fotos y video.</p>}
+        </div>
+      </>}
+      {msg && <div className="toast" role="status">{msg}</div>}
+    </div>
+  );
+}
