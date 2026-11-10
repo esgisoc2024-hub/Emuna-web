@@ -265,8 +265,11 @@ if(REVIEWS.length){$("#resenas").hidden=false;$("#rl").hidden=false;
  $("#bub").innerHTML=REVIEWS.map(r=>`<figure><blockquote></blockquote><figcaption></figcaption></figure>`).join("");
  document.querySelectorAll("#bub figure").forEach((f,i)=>{f.querySelector("blockquote").textContent=REVIEWS[i].t;f.querySelector("figcaption").textContent=REVIEWS[i].a});}
 /* Botón del panel: solo aparece si hay una sesión iniciada de un administrador */
+/* La sesión dura una hora y esta página no la renueva: si ya venció pero sigue guardada, el botón se muestra igual
+   (el panel pide iniciar sesión de nuevo si hace falta). Solo se oculta si se confirmó que la cuenta no es administradora. */
 try{const k=Object.keys(localStorage).find(x=>/^sb-.+-auth-token$/.test(x)),ss=k&&JSON.parse(localStorage.getItem(k)),tk=ss&&ss.access_token;
- if(tk&&!(ss.expires_at&&ss.expires_at*1000<Date.now()))fetch("/api/me",{headers:{Authorization:"Bearer "+tk}}).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.panel)$("#pnl").hidden=false}).catch(()=>{})}catch(e){}
+ if(tk){if(localStorage.getItem("emuna_panel")!=="0")$("#pnl").hidden=false;
+  if(!(ss.expires_at&&ss.expires_at*1000<Date.now()))fetch("/api/me",{headers:{Authorization:"Bearer "+tk}}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;$("#pnl").hidden=!d.panel;localStorage.setItem("emuna_panel",d.panel?"1":"0")}).catch(()=>{})}}catch(e){}
 addEventListener("scroll",()=>$("#hd").classList.toggle("s",scrollY>30),{passive:true});
 const mn=$("#mn"),bg=$("#bg");
 function menu(o){mn.classList.toggle("o",o);document.body.classList.toggle("mo",o);bg.setAttribute("aria-expanded",o);bg.textContent=o?"Cerrar":"Menú";mn.setAttribute("aria-hidden",!o)}
