@@ -28,12 +28,13 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
   const [text, setText] = useState(''), [busy, setBusy] = useState(false), [clientId, setClientId] = useState('');
   const [sending, setSending] = useState(false), [sendTo, setSendTo] = useState(''), [sendMsg, setSendMsg] = useState('');
   const chatEnd = useRef(null);
+  const [ready, setReady] = useState(true);
 
   const load = async () => {
     const { data } = await sb.from('proposals').select('*').order('updated_at', { ascending: false });
     setList(data || []); return data || [];
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); api('/api/proposals/chat').then(r => r.json()).then(j => setReady(!!j.ready)).catch(() => {}); }, []);
   useEffect(() => { chatEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, [open?.chat?.length, busy]);
 
   const current = open && open !== 'new' && open.id ? open : null;
@@ -97,6 +98,7 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
         <div className="pr-grid">
           <section className="pr-chat panel">
             <h3>Chat con Claude</h3>
+            {!ready && <p className="pr-warn">Claude todavía no está conectado: falta cargar <b>ANTHROPIC_API_KEY</b> en las variables de entorno de Vercel y volver a publicar.</p>}
             {!current && <label className="l" style={{ marginBottom: '.8rem' }}>Cliente (opcional)
               <select value={clientId} onChange={e => setClientId(e.target.value)}><option value="">Que lo detecte de tus indicaciones</option>{clients.map(c => <option key={c.id} value={c.id}>{c.name}{c.company ? ` — ${c.company}` : ''}</option>)}</select>
             </label>}
@@ -138,12 +140,13 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
           {STATUSES.map(s => <button key={s.k} className={filter === s.k ? 'on' : ''} onClick={() => setFilter(s.k)}><i style={{ background: s.color }} />{s.label} <b>{count(s.k)}</b></button>)}
         </div>
         <button className="btn" onClick={() => { setOpen('new'); setText(''); }}>+ Nueva propuesta con Claude</button>
+        {!ready && <p className="pr-warn" style={{ width: '100%' }}>Claude todavía no está conectado: falta cargar <b>ANTHROPIC_API_KEY</b> en Vercel (Settings → Environment Variables) y volver a publicar.</p>}
       </div>
       <div className="panel">
         {shown.map(p => <div className="row" key={p.id}>
           <div style={{ cursor: 'pointer', flex: 1, minWidth: 220 }} onClick={() => setOpen(p)}>
             <strong>{p.title || 'Propuesta sin título'}</strong><br />
-            <small>{p.client_name || 'Sin cliente'}{totalText(p.content) && ` · ${totalText(p.content)}`} · Actualizada {fmtDate(p.updated_at)}{p.sent_at && ` · Enviada ${fmtDate(p.sent_at)}`}</small>
+            <small>{p.client_name || 'Sin cliente'}{totalText(p.content) && ` · ${totalText(p.content)}`} · Actualizada {fmtDate(p.updated_at)}{p.sent_at && ` · Enviada ${fmtDate(p.sent_at)}`}{p.accepted_at && ` · Aceptada ${fmtDate(p.accepted_at)}`}</small>
           </div>
           <div className="pr-actions">
             <StatusSelect value={p.status} onChange={v => update(p.id, { status: v })} />

@@ -59,3 +59,4 @@ textarea{min-height:110px;resize:vertical}
 .pr-ph span{font-size:2.5rem;color:var(--gold);display:block}
 .pr-send{margin-bottom:1rem}
 @media(max-width:900px){.pr-grid{grid-template-columns:1fr}.pr-chat{position:static;max-height:none}}
+.pr-warn{background:var(--beige);border-radius:12px;padding:.6rem .9rem;font-size:.88rem;margin:.2rem 0 .8rem}

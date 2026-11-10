@@ -16,3 +16,4 @@ alter table public.proposals add constraint proposals_status_check
   check (status in ('borrador','enviada','en_negociacion','aceptada','rechazada'));
 create unique index if not exists proposals_token_key on public.proposals(token);
 create index if not exists proposals_status_idx on public.proposals(status, updated_at desc);
+alter table public.proposals add column if not exists accepted_at timestamptz;

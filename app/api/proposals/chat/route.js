@@ -33,6 +33,12 @@ ${clients.map(c => `${c.id} | ${c.name || ''} | ${c.company || ''} | ${c.email |
 
 ${current ? `Propuesta actual (en JSON), sobre la que estás trabajando:\n${JSON.stringify(current)}` : 'Todavía no hay propuesta: armá la primera versión.'}`;
 
+// Indica al panel si la clave de Claude está cargada (no devuelve la clave)
+export async function GET(req) {
+  const { res } = await requireAdmin(req); if (res) return res;
+  return NextResponse.json({ ready: !!process.env.ANTHROPIC_API_KEY, model: MODEL });
+}
+
 export async function POST(req) {
   const { res } = await requireAdmin(req); if (res) return res;
   if (!process.env.ANTHROPIC_API_KEY) return NextResponse.json({ error: 'Falta cargar ANTHROPIC_API_KEY en las variables de entorno de Vercel.' }, { status: 500 });
