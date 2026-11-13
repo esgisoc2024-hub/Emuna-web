@@ -11,6 +11,7 @@ const IDEAS = [
   'Campañas de Meta Ads para un estudio de pilates en Ituzaingó que quiere sumar alumnas. Gestión mensual ARS 250.000, la inversión en anuncios va aparte.',
   'Branding completo para una marca de velas artesanales que arranca: logo, paleta, tono de voz y 12 piezas para Instagram.',
 ];
+const AI_PROMPT = 'Dame un único archivo HTML completo, con el CSS y el JavaScript incluidos en el mismo archivo. Sin React, sin archivos aparte y sin imágenes locales; si usás imágenes, que sean URLs https. Que se vea bien en el celular y al imprimir.';
 const fmtDate = d => d ? new Date(d).toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }) : '';
 const totalText = c => {
   if (!c?.inversion?.items?.length) return '';
@@ -139,6 +140,12 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
           <form className="pr-chat panel pr-htmlform" onSubmit={saveHtml}>
             <h3>Propuesta en HTML</h3>
             <p className="pr-hint">Pegá el código de una propuesta hecha afuera (o subí el archivo .html). Se guarda en el CRM con su enlace para el cliente, el botón de aceptar y los estados.</p>
+            {!current && <div className="pr-tip">
+              <div className="pr-tiphead"><strong>¿La vas a generar con una IA?</strong>
+                <button type="button" className="btn ghost sm" onClick={() => { navigator.clipboard?.writeText(AI_PROMPT).then(() => flash('Prompt copiado.'), () => flash('No se pudo copiar. Seleccioná el texto y copialo a mano.')); }}>Copiar prompt</button></div>
+              <p>Sumale esto a tu pedido para que el código se vea bien acá:</p>
+              <blockquote>“{AI_PROMPT}”</blockquote>
+            </div>}
             <label className="l">Título<input value={draft.title} onChange={e => setD('title', e.target.value)} placeholder="Ej: Propuesta de web para Café Bruma" /></label>
             <label className="l">Cliente
               <select value={draft.clientId} onChange={e => setD('clientId', e.target.value)}><option value="">Sin vincular a un cliente del CRM</option>{clients.map(c => <option key={c.id} value={c.id}>{c.name}{c.company ? ` — ${c.company}` : ''}</option>)}</select>
