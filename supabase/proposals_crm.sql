@@ -17,3 +17,7 @@ alter table public.proposals add constraint proposals_status_check
 create unique index if not exists proposals_token_key on public.proposals(token);
 create index if not exists proposals_status_idx on public.proposals(status, updated_at desc);
 alter table public.proposals add column if not exists accepted_at timestamptz;
+-- Propuestas cargadas como HTML propio (pegado o subido desde el panel)
+alter table public.proposals add column if not exists html text;
+alter table public.proposals drop constraint if exists proposals_html_size;
+alter table public.proposals add constraint proposals_html_size check (html is null or octet_length(html) <= 3000000);

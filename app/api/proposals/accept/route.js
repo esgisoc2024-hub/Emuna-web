@@ -10,8 +10,8 @@ export async function POST(req) {
   const { token, name } = await req.json().catch(() => ({}));
   if (!/^[0-9a-f-]{36}$/i.test(token || '')) return NextResponse.json({ error: 'Enlace inválido' }, { status: 400 });
   const sb = admin();
-  const { data: p } = await sb.from('proposals').select('id,status,content,client_id,accepted_at,token').eq('token', token).maybeSingle();
-  if (!p?.content) return NextResponse.json({ error: 'No encontramos la propuesta' }, { status: 404 });
+  const { data: p } = await sb.from('proposals').select('id,status,content,html,title,client_name,client_id,accepted_at,token').eq('token', token).maybeSingle();
+  if (!p?.content && !p?.html) return NextResponse.json({ error: 'No encontramos la propuesta' }, { status: 404 });
   if (p.status === 'aceptada') return NextResponse.json({ ok: true, accepted_at: p.accepted_at });
   if (p.status === 'rechazada') return NextResponse.json({ error: 'Esta propuesta ya no está vigente. Escribinos y la actualizamos.' }, { status: 409 });
 
@@ -23,7 +23,7 @@ export async function POST(req) {
   if (p.client_id) await sb.from('clients').update({ status: 'propuesta aceptada' }).eq('id', p.client_id);
 
   // Aviso al equipo (si falla el correo, la aceptación igual queda guardada)
-  const c = p.content, t = totals(c.inversion), cur$ = c.inversion?.moneda;
+  const c = p.content || { titulo: p.title || 'Propuesta', cliente: { nombre: p.client_name } }, t = totals(c.inversion), cur$ = c.inversion?.moneda;
   const total = [t.hasUnico && money(t.unico || null, cur$), t.hasMensual && `${money(t.mensual || null, cur$)} por mes`].filter(Boolean).join(' + ');
   const to = process.env.NOTIFY_EMAIL || process.env.REPLY_TO || CONTACT.email;
   try {

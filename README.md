@@ -21,3 +21,4 @@ Panel: `/admin` · Casos públicos: `/casos`
 1. Ejecutá `supabase/proposals_crm.sql` en Supabase.
 2. En Vercel cargá `ANTHROPIC_API_KEY` (la creás en console.anthropic.com). Opcional: `ANTHROPIC_MODEL` para cambiar el modelo.
 3. En el panel, pestaña "Propuestas (CRM)": escribile a Claude qué necesitás y arma la propuesta con el diseño de EMUNÁ. Cada propuesta tiene su página pública en `/propuesta/<código>` y un estado (borrador, enviada, en negociación, aceptada, rechazada).
+4. También podés cargar una propuesta hecha afuera: botón "+ Pegar HTML" (pegás el código o subís el .html). Se muestra aislada del resto del sitio en `/propuesta/<código>` y comparte estados, envío y botón de aceptar con las demás.

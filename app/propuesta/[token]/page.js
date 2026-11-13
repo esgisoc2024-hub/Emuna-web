@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { admin } from '@/lib/supabase';
 import ProposalDoc from '@/app/components/ProposalDoc';
+import HtmlFrame from '@/app/components/HtmlFrame';
 import PrintButton from './PrintButton';
 import AcceptBox from './AcceptBox';
 import { CONTACT } from '@/lib/services';
@@ -9,13 +10,13 @@ export const dynamic = 'force-dynamic';
 
 const get = async token => {
   if (!/^[0-9a-f-]{36}$/i.test(token)) return null;
-  const { data } = await admin().from('proposals').select('content,created_at,sent_at,status,accepted_at').eq('token', token).maybeSingle();
-  return data?.content ? data : null;
+  const { data } = await admin().from('proposals').select('content,html,title,created_at,sent_at,status,accepted_at').eq('token', token).maybeSingle();
+  return data?.content || data?.html ? data : null;
 };
 
 export async function generateMetadata({ params }) {
   const d = await get((await params).token);
-  return { title: d ? `${d.content.titulo} · Propuesta EMUNÁ` : 'Propuesta · EMUNÁ', robots: { index: false, follow: false } };
+  return { title: d ? `${d.content?.titulo || d.title || 'Propuesta'} · Propuesta EMUNÁ` : 'Propuesta · EMUNÁ', robots: { index: false, follow: false } };
 }
 
 export default async function Propuesta({ params }) {
@@ -39,10 +40,12 @@ export default async function Propuesta({ params }) {
 .pa-form label{display:flex;flex-direction:column;gap:.3rem;text-align:left;font-size:.9rem;width:min(100%,360px)}
 .pa-form input{font:inherit;padding:.75rem 1rem;border-radius:14px;border:0;background:#F7F3EA;color:#2C3320}
 .pa-err{color:#F0C48C;font-size:.9rem;margin:0}
+.pp-html{max-width:1100px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 10px 40px rgba(44,51,32,.12);background:#fff}
 @media print{.pp{padding:0;background:#fff}.pp-bar,.pa{display:none}@page{margin:12mm}}`}</style>
-      <div className="pp-bar"><PrintButton /></div>
-      <ProposalDoc p={d.content} date={d.sent_at || d.created_at} />
-      <AcceptBox token={(await params).token} status={d.status} acceptedAt={d.accepted_at} whatsapp={CONTACT.whatsapp} title={d.content.titulo} />
+      <div className="pp-bar"><PrintButton frame={!d.content} /></div>
+      {d.content ? <ProposalDoc p={d.content} date={d.sent_at || d.created_at} />
+        : <div className="pp-html"><HtmlFrame src={`/propuesta/${(await params).token}/raw`} /></div>}
+      <AcceptBox token={(await params).token} status={d.status} acceptedAt={d.accepted_at} whatsapp={CONTACT.whatsapp} title={d.content?.titulo || d.title || 'la propuesta'} />
     </main>
   );
 }

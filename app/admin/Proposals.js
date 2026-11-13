@@ -1,6 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import ProposalDoc from '@/app/components/ProposalDoc';
+import HtmlFrame from '@/app/components/HtmlFrame';
+import { MAX_HTML_BYTES, htmlTitle } from '@/lib/htmlProposal';
 import { STATUSES, statusLabel, money, totals } from '@/lib/proposals';
 import '@/app/components/proposal.css';
 
@@ -29,6 +31,8 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
   const [sending, setSending] = useState(false), [sendTo, setSendTo] = useState(''), [sendMsg, setSendMsg] = useState('');
   const chatEnd = useRef(null);
   const [ready, setReady] = useState(true);
+  const EMPTY = { title: '', clientId: '', clientName: '', html: '' };
+  const [draft, setDraft] = useState(EMPTY), [preview, setPreview] = useState(''), [saving, setSaving] = useState(false);
 
   const load = async () => {
     const { data } = await sb.from('proposals').select('*').order('updated_at', { ascending: false });
@@ -37,7 +41,43 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
   useEffect(() => { load(); api('/api/proposals/chat').then(r => r.json()).then(j => setReady(!!j.ready)).catch(() => {}); }, []);
   useEffect(() => { chatEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, [open?.chat?.length, busy]);
 
-  const current = open && open !== 'new' && open.id ? open : null;
+  const current = open && typeof open === 'object' && open.id ? open : null;
+  const isHtml = open === 'new-html' || (!!current && !current.content && current.html != null);
+
+  // Al abrir una propuesta HTML, cargo sus datos en el editor
+  useEffect(() => {
+    if (!isHtml) return;
+    const d = current ? { title: current.title || '', clientId: current.client_id || '', clientName: current.client_id ? '' : (current.client_name || ''), html: current.html || '' } : EMPTY;
+    setDraft(d); setPreview(d.html);
+  }, [current?.id, isHtml]);
+  // La vista previa se actualiza un momento después de dejar de escribir
+  useEffect(() => { const t = setTimeout(() => setPreview(draft.html), 600); return () => clearTimeout(t); }, [draft.html]);
+
+  const setD = (k, v) => setDraft(d => ({ ...d, [k]: v }));
+  const loadFile = async e => {
+    const f = e.target.files?.[0]; e.target.value = ''; if (!f) return;
+    if (f.size > MAX_HTML_BYTES) return flash('El archivo es muy pesado (máximo 2,9 MB). Probá con imágenes enlazadas en lugar de incrustadas.');
+    const html = await f.text();
+    setDraft(d => ({ ...d, html, title: d.title || htmlTitle(html) || f.name.replace(/\.html?$/i, '') }));
+    flash(`Cargué ${f.name}.`);
+  };
+  const saveHtml = async e => {
+    e?.preventDefault();
+    if (!draft.html.trim()) return flash('Pegá el código HTML o subí el archivo.');
+    if (new Blob([draft.html]).size > MAX_HTML_BYTES) return flash('El HTML es muy pesado (máximo 2,9 MB). Probá con imágenes enlazadas en lugar de incrustadas.');
+    const c = clients.find(x => x.id === draft.clientId);
+    const title = draft.title.trim() || htmlTitle(draft.html) || 'Propuesta';
+    const fields = { title, subject: title, html: draft.html, client_id: c?.id || null,
+      client_name: c ? [c.name, c.company].filter(Boolean).join(' · ') : (draft.clientName.trim() || null), updated_at: new Date().toISOString() };
+    setSaving(true);
+    const q = current ? sb.from('proposals').update(fields).eq('id', current.id) : sb.from('proposals').insert({ ...fields, status: 'borrador' });
+    const { data, error } = await q.select('*').single();
+    setSaving(false);
+    if (error) return flash('No se pudo guardar la propuesta.');
+    flash(current ? 'Cambios guardados.' : 'Propuesta guardada. Ya tiene su enlace para el cliente.');
+    setOpen(data); load();
+  };
+  const dirty = isHtml && current && (draft.html !== (current.html || '') || draft.title !== (current.title || '') || (draft.clientId || null) !== (current.client_id || null) || (!draft.clientId && draft.clientName !== (current.client_name || '')));
   const update = async (id, fields) => {
     const { error } = await sb.from('proposals').update({ ...fields, updated_at: new Date().toISOString() }).eq('id', id);
     if (error) return flash('No se pudo guardar el cambio.');
@@ -79,7 +119,7 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
     return (
       <div className="pr-work">
         <div className="pr-bar">
-          <button className="btn ghost sm" onClick={() => { setOpen(null); setSending(false); setClientId(''); }}>← Todas las propuestas</button>
+          <button className="btn ghost sm" onClick={() => { if (dirty && !confirm('Tenés cambios sin guardar. ¿Salir igual?')) return; setOpen(null); setSending(false); setClientId(''); }}>← Todas las propuestas</button>
           {current && <div className="pr-actions">
             <StatusSelect value={current.status} onChange={v => update(current.id, { status: v })} />
             <a className="btn ghost sm" href={`/propuesta/${current.token}`} target="_blank" rel="noopener noreferrer">Ver como cliente</a>
@@ -95,7 +135,28 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
           <div className="full" style={{ display: 'flex', gap: '.5rem' }}><button className="btn sm">Enviar correo</button><button type="button" className="btn ghost sm" onClick={() => setSending(false)}>Cancelar</button></div>
         </form>}
 
-        <div className="pr-grid">
+        {isHtml ? <div className="pr-grid">
+          <form className="pr-chat panel pr-htmlform" onSubmit={saveHtml}>
+            <h3>Propuesta en HTML</h3>
+            <p className="pr-hint">Pegá el código de una propuesta hecha afuera (o subí el archivo .html). Se guarda en el CRM con su enlace para el cliente, el botón de aceptar y los estados.</p>
+            <label className="l">Título<input value={draft.title} onChange={e => setD('title', e.target.value)} placeholder="Ej: Propuesta de web para Café Bruma" /></label>
+            <label className="l">Cliente
+              <select value={draft.clientId} onChange={e => setD('clientId', e.target.value)}><option value="">Sin vincular a un cliente del CRM</option>{clients.map(c => <option key={c.id} value={c.id}>{c.name}{c.company ? ` — ${c.company}` : ''}</option>)}</select>
+            </label>
+            {!draft.clientId && <label className="l">Nombre del cliente (opcional)<input value={draft.clientName} onChange={e => setD('clientName', e.target.value)} placeholder="Nombre o marca" /></label>}
+            <div className="pr-codehead"><span>Código HTML</span><label className="btn ghost sm pr-file">Subir archivo .html<input type="file" accept=".html,.htm,text/html" onChange={loadFile} hidden /></label></div>
+            <textarea className="pr-code" value={draft.html} onChange={e => setD('html', e.target.value)} spellCheck={false} placeholder={'<!doctype html>\n<html>\n  …pegá acá tu propuesta…\n</html>'} />
+            <small className="pr-hint">Las imágenes tienen que estar subidas a internet (con su dirección completa, https://…) o incrustadas en el código. Las rutas de tu computadora no se ven.</small>
+            <button className="btn" disabled={saving || (current && !dirty)}>{saving ? 'Guardando…' : current ? (dirty ? 'Guardar cambios' : 'Sin cambios') : 'Guardar propuesta'}</button>
+            {current && <label className="l" style={{ marginTop: '1rem' }}>Notas internas (solo las ves vos)
+              <textarea defaultValue={current.notes || ''} key={current.id} onBlur={e => e.target.value !== (current.notes || '') && update(current.id, { notes: e.target.value })} style={{ minHeight: 60 }} />
+            </label>}
+          </form>
+          <section className="pr-preview">
+            {preview.trim() ? <div className="pr-htmlprev"><HtmlFrame html={preview} minHeight={500} /></div>
+              : <div className="pr-ph"><span>✦</span><p>Acá vas a ver la propuesta tal como la va a ver tu cliente apenas pegues el código.</p></div>}
+          </section>
+        </div> : <div className="pr-grid">
           <section className="pr-chat panel">
             <h3>Chat con Claude</h3>
             {!ready && <p className="pr-warn">Claude todavía no está conectado: falta cargar <b>ANTHROPIC_API_KEY</b> en las variables de entorno de Vercel y volver a publicar.</p>}
@@ -124,7 +185,7 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
             {current?.content ? <ProposalDoc p={current.content} date={current.sent_at || current.created_at} />
               : <div className="pr-ph"><span>✦</span><p>La propuesta va a aparecer acá, con el diseño de EMUNÁ, apenas le des las primeras indicaciones a Claude.</p></div>}
           </section>
-        </div>
+        </div>}
       </div>
     );
   }
@@ -139,13 +200,16 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
           <button className={filter === 'todas' ? 'on' : ''} onClick={() => setFilter('todas')}>Todas <b>{list.length}</b></button>
           {STATUSES.map(s => <button key={s.k} className={filter === s.k ? 'on' : ''} onClick={() => setFilter(s.k)}><i style={{ background: s.color }} />{s.label} <b>{count(s.k)}</b></button>)}
         </div>
-        <button className="btn" onClick={() => { setOpen('new'); setText(''); }}>+ Nueva propuesta con Claude</button>
+        <div className="pr-actions">
+          <button className="btn" onClick={() => { setOpen('new'); setText(''); }}>+ Nueva con Claude</button>
+          <button className="btn ghost" onClick={() => setOpen('new-html')}>+ Pegar HTML</button>
+        </div>
         {!ready && <p className="pr-warn" style={{ width: '100%' }}>Claude todavía no está conectado: falta cargar <b>ANTHROPIC_API_KEY</b> en Vercel (Settings → Environment Variables) y volver a publicar.</p>}
       </div>
       <div className="panel">
         {shown.map(p => <div className="row" key={p.id}>
           <div style={{ cursor: 'pointer', flex: 1, minWidth: 220 }} onClick={() => setOpen(p)}>
-            <strong>{p.title || 'Propuesta sin título'}</strong><br />
+            <strong>{p.title || 'Propuesta sin título'}</strong> <span className="pr-kind">{p.html != null && !p.content ? 'HTML' : 'Claude'}</span><br />
             <small>{p.client_name || 'Sin cliente'}{totalText(p.content) && ` · ${totalText(p.content)}`} · Actualizada {fmtDate(p.updated_at)}{p.sent_at && ` · Enviada ${fmtDate(p.sent_at)}`}{p.accepted_at && ` · Aceptada ${fmtDate(p.accepted_at)}`}</small>
           </div>
           <div className="pr-actions">
@@ -155,7 +219,7 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
             <button className="btn ghost sm" onClick={() => remove(p)}>Eliminar</button>
           </div>
         </div>)}
-        {!shown.length && <p>{list.length ? `No hay propuestas en "${statusLabel(filter)}".` : 'Todavía no hay propuestas. Tocá "Nueva propuesta con Claude" y contale qué necesitás.'}</p>}
+        {!shown.length && <p>{list.length ? `No hay propuestas en "${statusLabel(filter)}".` : 'Todavía no hay propuestas. Armá una con Claude o pegá el HTML de una que ya tengas.'}</p>}
       </div>
     </>
   );
