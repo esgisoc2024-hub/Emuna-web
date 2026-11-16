@@ -3,295 +3,501 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMUNÁ | Estudio creativo y marketing digital</title>
-<meta name="description" content="EMUNÁ es un estudio creativo de marketing digital: paid media, SEO, Google Ads, diseño web, branding y consultoría para marcas que quieren crecer.">
-<meta property="og:title" content="EMUNÁ | Estudio creativo y marketing digital">
-<meta property="og:description" content="Paid media, SEO, Google Ads, diseño web, branding y consultoría con ideas y con plan.">
+<title>EMUNÁ | Publicidad digital y diseño web en Buenos Aires</title>
+<meta name="description" content="EMUNÁ es un estudio boutique de Buenos Aires. Gestionamos tu publicidad en Meta y Google y diseñamos tu sitio web para que la inversión vuelva en consultas.">
+<meta property="og:title" content="EMUNÁ | Publicidad digital y diseño web">
+<meta property="og:description" content="Campañas y sitios web pensados para que te escriban. Estudio boutique en Buenos Aires.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#6E7D4E">
+<meta name="theme-color" content="#060606">
 <link rel="icon" href="/isotipo-emuna.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Caveat+Brush&family=Fraunces:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Caveat+Brush&display=swap" rel="stylesheet">
 <script>document.documentElement.className="js"</script>
 <style>
-:root{--olive:#6E7D4E;--gold:#AA7229;--beige:#F0C48C;--sage:#D8E0C7;--ink:#2C3320;--paper:#F7F3EA;--mut:#5B6447;;--plum:#2C3320;
---sans:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;--hand:"Caveat Brush","Comic Sans MS",cursive;--serif:"Fraunces",Georgia,serif}
+:root{
+  --bg:#060606;--smoke:#141513;--smoke2:#1D1F1B;--line:rgba(241,235,221,.13);
+  --cream:#F1EBDD;--fog:#A6A99E;--olive:#6E7D4E;--olive-l:#B7C78C;--gold:#D9A54A;--beige:#F0C48C;--bulb:#FFDD33;
+  --display:"Fraunces",Georgia,serif;--sans:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;--hand:"Caveat Brush","Comic Sans MS",cursive;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
-body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;overflow-x:hidden}
-a{color:inherit;text-decoration:none}[hidden]{display:none!important}img,svg{display:block;max-width:100%}
+html{scroll-behavior:smooth;scroll-padding-top:84px;background:var(--bg)}
+body{font-family:var(--sans);color:var(--cream);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}[hidden]{display:none!important}img,svg{display:block;max-width:100%}img{height:auto}main{overflow-x:clip}
 button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
-.w{width:min(1160px,92vw);margin-inline:auto}
-section{padding:clamp(4.5rem,9vw,7.5rem) 0}
-h1,h2,h3{font-weight:800;line-height:1;letter-spacing:-.025em}
-h2{font-size:clamp(2.2rem,5.4vw,4.2rem);margin:.5rem 0 1.2rem}
-.hand{font-family:var(--hand);font-weight:400;letter-spacing:0;background:linear-gradient(transparent 60%,var(--beige) 60%);padding:0 .12em}
-.ital{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
-.tag{font-family:var(--hand);font-size:1.5rem;color:var(--gold);display:inline-block;transform:rotate(-2deg)}
-.btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 1.6rem;border-radius:999px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:600;cursor:pointer;transition:transform .35s,background .3s,color .3s,box-shadow .3s}
-.btn:hover{transform:translate(-3px,-3px);box-shadow:4px 4px 0 var(--gold);background:var(--olive);border-color:var(--ink)}
-.btn.ghost{background:transparent;color:var(--ink)}.btn.ghost:hover{background:var(--sage)}
-.rv{transition:opacity .9s,transform .9s cubic-bezier(.22,.8,.2,1)}.js .rv{opacity:0;transform:translateY(34px)}.js .rv.in{opacity:1;transform:none}
-/* header */
-header{position:fixed;inset:0 0 auto;z-index:70;padding:.9rem 0;transition:background .4s,box-shadow .4s}
-header.s{background:rgba(247,243,234,.9);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(44,51,32,.12)}
+:focus-visible{outline:2px solid var(--bulb);outline-offset:3px;border-radius:6px}
+::selection{background:var(--olive);color:var(--cream)}
+
+/* fondo: negro con grises difuminados y grano */
+.fog{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+   radial-gradient(62vw 58vh at 92% -8%,rgba(176,178,168,.46),transparent 66%),
+   radial-gradient(52vw 66vh at -10% 42%,rgba(110,125,78,.40),transparent 66%),
+   radial-gradient(70vw 54vh at 66% 112%,rgba(150,151,144,.40),transparent 64%),
+   radial-gradient(38vw 40vh at 44% 52%,rgba(120,122,114,.20),transparent 70%);
+  transition:filter .8s}
+.grain{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.09;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body.lit .fog{filter:brightness(1.9) saturate(1.2)}
+
+.w{width:min(1200px,90vw);margin-inline:auto}
+.sec{padding:clamp(5rem,10vw,9rem) 0;position:relative}
+
+/* titulares: una línea firme, una línea en cursiva liviana */
+h1,h2,h3{font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:800;line-height:.96;letter-spacing:-.03em}
+h2{font-size:clamp(2.3rem,5.2vw,4.4rem);max-width:15em}
+h1 i,h2 i{display:block;margin-top:.06em;font-weight:300;font-style:italic;letter-spacing:-.02em;color:var(--olive-l)}
+h3{font-size:1.5rem;letter-spacing:-.02em;line-height:1.05}
+.lead{font-size:clamp(1.05rem,1.4vw,1.22rem);color:var(--fog);max-width:34rem;margin-top:1.4rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.95rem 1.6rem;border-radius:999px;border:1px solid var(--olive-l);background:var(--olive-l);color:#11140B;font-weight:700;cursor:pointer;transition:background .25s,border-color .25s,color .25s,transform .25s var(--ease)}
+.btn:hover{background:var(--cream);border-color:var(--cream)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:rgba(241,235,221,.04);color:var(--cream);border-color:var(--line)}
+.btn.ghost:hover{background:rgba(241,235,221,.1);border-color:rgba(241,235,221,.4)}
+.btn.sm{padding:.6rem 1.1rem;font-size:.92rem}
+
+/* la bombilla: pequeño apunte de idea */
+.idea{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--hand);font-size:1.35rem;line-height:1.1;color:var(--beige);transform:rotate(-2deg)}
+.idea svg{width:34px;height:46px;flex:none;filter:drop-shadow(0 0 14px rgba(255,221,51,.55));transition:filter .4s,transform .4s var(--ease)}
+button.idea{background:none;border:0;cursor:pointer;text-align:left}
+button.idea:hover svg{transform:rotate(-8deg) scale(1.08)}
+body.lit .idea svg{filter:drop-shadow(0 0 26px rgba(255,221,51,.95))}
+
+/* encabezado */
+header{position:fixed;inset:0 0 auto;z-index:70;padding:.8rem 0;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+header.s{background:rgba(6,6,6,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-color:var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
-.logo{display:inline-flex;align-items:center}.logo img{display:block;height:46px;width:auto}.logo .lc{display:none}
-/* hero */
-.hero{min-height:100svh;display:flex;align-items:center;padding-top:7rem;background:radial-gradient(90% 70% at 100% 0,var(--sage),transparent 60%)}
-.hero .w{display:grid;grid-template-columns:1.3fr .7fr;gap:3vw;align-items:center}
-.hero h1{font-size:clamp(2.6rem,6.6vw,5.8rem);margin:1rem 0 1.4rem}.hero h1 .ital{color:var(--olive)}
-.lead{font-size:clamp(1.05rem,1.5vw,1.25rem);color:var(--mut);max-width:34rem}
-.cta{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem}
-.bulb{width:min(300px,70%);margin:auto;animation:fl 6s ease-in-out infinite;filter:drop-shadow(0 0 34px rgba(255,221,51,.65))}
-@keyframes fl{50%{transform:translateY(-16px) rotate(2deg)}}
-.mq{background:var(--olive);color:var(--paper);padding:1rem 0;overflow:hidden;white-space:nowrap;transform:rotate(-1deg);margin:-1rem 0}
-.mq div{display:inline-flex;gap:2.5rem;animation:mq 28s linear infinite;font-family:var(--hand);font-size:clamp(1.6rem,3vw,2.4rem)}
-.mq span::after{content:"✦";margin-left:2.5rem;color:var(--beige)}
-@keyframes mq{to{transform:translateX(-50%)}}
-/* frase */
-.say{background:var(--sage);text-align:center;overflow:hidden;padding:clamp(3rem,6vw,4.5rem) 0}
-.say p{font-size:clamp(1rem,1.8vw,1.3rem);margin-top:.8rem}
-.say strong{display:block;font-size:clamp(2.4rem,6vw,4.6rem);line-height:.95;letter-spacing:-.04em;font-weight:800}
-.say strong.g{color:var(--olive)}
-/* servicios */
-.sv{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-.card{border:2px solid var(--ink);border-radius:20px;padding:1.4rem;background:var(--paper);display:flex;flex-direction:column;gap:.5rem;transition:transform .5s,box-shadow .5s}
-.card:hover{transform:rotate(-1deg) translateY(-4px);box-shadow:6px 6px 0 var(--ink)}
-.card:nth-child(1){background:var(--sage)}.card:nth-child(2){background:var(--beige)}.card:nth-child(3){background:var(--olive);color:var(--paper);border-color:var(--olive)}.card:nth-child(3) li{border-color:var(--paper)}.card:nth-child(3) .n{color:var(--beige)}.card:nth-child(4){background:var(--paper)}.card:nth-child(5){background:var(--beige)}.card:nth-child(6){background:var(--sage)}
-.card .n{font-family:var(--hand);font-size:1.7rem;line-height:1;color:var(--gold)}
-.card h3{font-size:clamp(1.35rem,2vw,1.7rem)}.card p{font-size:.9rem}
-.card ul{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto}
-.card li{border:1.5px solid var(--ink);border-radius:999px;padding:.1rem .65rem;font-size:.78rem}
-.card a{font-weight:700;margin-top:.6rem;text-decoration:underline;text-underline-offset:4px}.card h3 a{font-weight:inherit;margin:0;text-decoration:none}.card h3 a:hover{text-decoration:underline}
-/* método */
-.st{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;list-style:none;margin-top:2.5rem}
-.st li{padding:1.2rem;border-radius:20px;background:var(--sage)}.st li:nth-child(even){background:var(--beige);transform:translateY(18px)}
-.st b{font-family:var(--hand);font-size:2.2rem;color:var(--plum);font-weight:400}
-.st h3{font-size:1.4rem;margin:.2rem 0 .4rem}.st p{font-size:.9rem;color:var(--mut)}
-/* casos */
-.cs{background:var(--olive);color:var(--paper);text-align:center;border-radius:40px;margin:0 auto;padding:clamp(3rem,7vw,5.5rem) 1.5rem}
-.cs p{max-width:30rem;margin:0 auto 2rem;opacity:.9}.cs .btn{background:var(--beige);color:var(--ink);border-color:var(--beige)}
-/* reseñas */
-.rev{background:var(--sage)}.rev h2{text-align:center}
-.bub{display:flex;flex-wrap:wrap;gap:1.2rem;justify-content:center;margin-top:2.5rem}
-.bub figure{background:var(--paper);border:2px solid var(--ink);border-radius:22px 22px 22px 4px;padding:1.2rem 1.5rem;max-width:300px;transform:rotate(var(--r,-2deg))}
-.bub figure:nth-child(even){--r:2deg;border-radius:22px 22px 4px 22px;background:var(--beige)}
-.bub blockquote{font-size:1.05rem}.bub figcaption{font-family:var(--hand);font-size:1.3rem;margin-top:.5rem;color:var(--plum)}
-/* equipo */
-.tm{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;margin-top:2.5rem;max-width:860px}
-.who{display:flex;gap:1.4rem;align-items:center;border:2px solid var(--ink);border-radius:26px;padding:1.4rem;background:var(--paper)}
-.av{flex:none;width:96px;height:96px;border-radius:50% 50% 50% 12%;display:grid;place-items:center;font-family:var(--hand);font-size:3.4rem;background:var(--beige);border:2px solid var(--ink)}
-.who:nth-child(2) .av{background:var(--sage);border-radius:50% 12% 50% 50%}
-.who h3{font-size:2rem}.who p{color:var(--mut);font-size:.95rem}
-/* contacto */
-.ct{background:var(--olive);color:var(--paper)}
-.ct .g{display:grid;grid-template-columns:1fr 1.1fr;gap:5vw;align-items:start}
-.ct .tag{color:var(--beige)}.ct .lead{color:var(--paper)}.ct label{color:var(--paper)}
-.ct .btn{background:var(--beige);color:var(--ink);border-color:var(--beige)}.ct .btn.ghost{background:transparent;color:var(--paper);border-color:rgba(247,243,234,.5)}
-.acts{display:flex;flex-direction:column;align-items:flex-start;gap:.9rem;margin-top:2rem}
-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;background:rgba(247,243,234,.07);border:1px solid rgba(247,243,234,.2);padding:2rem;border-radius:26px}
-.f{display:flex;flex-direction:column;gap:.3rem}.f.full{grid-column:1/-1}
-label{font-size:.8rem;font-weight:600;color:var(--sage)}
-input,select,textarea{background:rgba(247,243,234,.1);border:1.5px solid rgba(247,243,234,.3);border-radius:12px;padding:.7rem .9rem}
-select option{color:var(--ink)}textarea{min-height:110px;resize:vertical}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--beige)}
-.ok{grid-column:1/-1;display:none;background:rgba(216,224,199,.18);padding:1rem;border-radius:12px}.ok.show{display:block}
-footer{background:var(--ink);color:var(--sage);padding:3rem 0 1.5rem;font-size:.9rem}
-.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem}.fg h4{color:var(--beige);font-family:var(--hand);font-weight:400;font-size:1.3rem;margin-bottom:.4rem}.fg a{display:block;padding:.15rem 0}.fg a:hover{color:var(--beige)}.fg p{max-width:20rem;margin-top:.6rem}
-.fb{margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(216,224,199,.2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
-/* header + menú */
-.hr{display:flex;align-items:center;gap:.6rem}
-.ic{width:44px;height:44px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;transition:background .3s}.ic:hover{background:var(--sage)}.ic svg{width:22px;height:22px}
-.hr .btn{padding:.65rem 1.2rem;font-size:.9rem}
-.burger{background:none;border:2px solid var(--ink);border-radius:999px;padding:.55rem 1.1rem;font-weight:600;cursor:pointer}
-.mn{position:fixed;inset:0;z-index:60;background:var(--olive);color:var(--paper);padding:6.5rem 0 2rem;overflow:auto;clip-path:circle(0% at calc(100% - 50px) 40px);visibility:hidden;transition:clip-path .8s cubic-bezier(.22,.8,.2,1),visibility 0s .8s}
-.mn.o{clip-path:circle(150% at calc(100% - 50px) 40px);visibility:visible;transition:clip-path .8s cubic-bezier(.22,.8,.2,1)}
-.mn .w{display:grid;grid-template-columns:1.2fr .8fr;gap:4vw}
-.mn nav a{display:block;font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;transition:transform .3s,color .3s}.mn nav a:hover{transform:translateX(10px);color:var(--beige)}
-.mn nav a.sub{font-size:clamp(1.2rem,2.4vw,1.7rem);font-weight:600;letter-spacing:-.01em}
-.mn nav a[hidden]{display:none}.mn nav a.pnl:not([hidden]){display:inline-flex;align-items:center;gap:.5rem;font-size:1.05rem;font-weight:700;letter-spacing:0;line-height:1;border:2px solid var(--paper);border-radius:999px;padding:.75rem 1.3rem;margin-bottom:1.6rem}.mn nav a.pnl:hover{background:var(--paper);color:var(--olive);transform:none}
-.mn nav small{display:block;font-family:var(--hand);font-size:1.6rem;color:var(--beige);margin:1.4rem 0 .2rem}
-.mn aside{align-self:end;font-size:1.05rem}.mn aside p{margin-top:.5rem}.mn aside a{text-decoration:underline;text-underline-offset:4px}
-body.mo{overflow:hidden}body.mo header{background:transparent;box-shadow:none}body.mo .logo .ld{display:none}body.mo .logo .lc{display:block}body.mo .burger{color:var(--paper)}body.mo .burger,body.mo .ic{border-color:var(--paper);color:var(--paper)}body.mo .hr .btn{display:none}
-/* hero con movimiento */
-.hero{position:relative;overflow:hidden}.hero .w{position:relative;z-index:1}
-.bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.bg i{position:absolute;border-radius:50%;opacity:.55;animation:dr 14s ease-in-out infinite alternate}
-.bg i:nth-child(1){width:38vw;aspect-ratio:1;background:var(--beige);top:-8%;left:-6%}
-.bg i:nth-child(2){width:26vw;aspect-ratio:1;background:var(--sage);bottom:-6%;left:38%;animation-delay:-4s}
-.bg i:nth-child(3){width:16vw;aspect-ratio:1;background:#FFDD33;top:22%;right:6%;opacity:.3;animation-delay:-8s}
-@keyframes dr{to{transform:translate(4vw,-3vh) scale(1.12)}}
-.hv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.25;z-index:0}
-/* palabra gigante */
-.giant{padding:clamp(3rem,6vw,5rem) 0;overflow:hidden}
-.gw{font-size:clamp(3rem,10vw,7.5rem);font-weight:800;letter-spacing:-.04em;line-height:.92;will-change:transform}.gw+.gw{color:var(--olive);margin-left:8vw}
-/* trabajos */
+.logo img{height:42px;width:auto}
+.lks{display:flex;gap:1.9rem;font-size:.96rem;color:var(--fog)}
+.lks a{transition:color .2s;padding:.3rem 0}.lks a:hover,.lks a.on{color:var(--cream)}
+.hr{display:flex;align-items:center;gap:.55rem}
+.ic{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;transition:background .25s}.ic:hover{background:rgba(241,235,221,.1)}.ic svg{width:20px;height:20px}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:999px;padding:.55rem 1rem;font-weight:600;cursor:pointer}
+.mn{position:fixed;inset:0;z-index:60;background:#060606;padding:6rem 0 2rem;overflow:auto;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.mn.o{opacity:1;visibility:visible;transition:opacity .3s}
+.mn nav a{display:block;font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;font-size:clamp(2rem,9vw,3rem);font-weight:800;letter-spacing:-.03em;line-height:1.25}
+.mn nav a.pnl{font-family:var(--sans);font-size:1rem;font-weight:700;letter-spacing:0;display:inline-flex;border:1px solid var(--olive-l);color:var(--olive-l);border-radius:999px;padding:.6rem 1.1rem;margin-bottom:1.4rem}
+.mn aside{margin-top:2rem;color:var(--fog)}.mn aside a{display:block;padding:.25rem 0;text-decoration:underline;text-underline-offset:4px}
+body.mo{overflow:hidden}
+
+/* inicio */
+.hero{min-height:100svh;display:flex;align-items:center;padding:8rem 0 5rem;position:relative}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px circle at var(--mx,70%) var(--my,30%),rgba(183,199,140,.16),transparent 70%)}
+.hero .w{display:grid;grid-template-columns:1.15fr .85fr;gap:4vw;align-items:center;position:relative}
+.hero h1{font-size:clamp(2.9rem,7.2vw,6.8rem);line-height:.92}.hero h1 i{margin-top:.12em;line-height:.98}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.2rem}
+.hero .idea{margin-top:2.6rem}
+
+/* pila de tarjetas del inicio: anuncio → web → consulta */
+.stack{position:relative;height:min(520px,60vh);min-height:420px;perspective:1400px}
+.pl{position:absolute;border-radius:22px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(40,42,37,.92),rgba(18,19,17,.94));box-shadow:0 40px 80px -30px #000,0 2px 0 rgba(255,255,255,.05) inset;will-change:transform}
+.pl small{color:var(--fog);font-size:.78rem}
+.p1{top:0;right:0;width:74%;padding:1.1rem 1.2rem 1.3rem;transform:rotate(4deg)}
+.p1 .bars{display:flex;align-items:flex-end;gap:7px;height:92px;margin-top:.9rem}
+.p1 .bars b{flex:1;border-radius:5px 5px 2px 2px;background:var(--smoke2)}
+.p1 .bars b:nth-child(n+5){background:var(--olive)}.p1 .bars b:last-child{background:var(--olive-l)}
+.p1 strong{font-family:var(--display);font-variation-settings:"SOFT" 100;font-size:2rem;font-weight:800;letter-spacing:-.03em;display:block;line-height:1.1}
+.p2{top:27%;left:0;width:70%;overflow:hidden;transform:rotate(-5deg)}
+.p2 .bar{display:flex;gap:6px;padding:.7rem .9rem;border-bottom:1px solid var(--line)}.p2 .bar span{width:9px;height:9px;border-radius:50%;background:#3a3c37}
+.p2 img{width:100%;aspect-ratio:16/9;object-fit:cover;opacity:.9}
+.p3{bottom:2%;right:4%;width:66%;padding:1rem 1.1rem;background:linear-gradient(160deg,#20301E,#141B13);border-color:rgba(183,199,140,.35);transform:rotate(2deg)}
+.p3 .who{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.p3 .who span{width:34px;height:34px;border-radius:50%;background:#25D366;display:grid;place-items:center;color:#06210F}
+.p3 .who svg{width:19px;height:19px}
+.p3 p{font-size:1.02rem;line-height:1.35}
+.js .hero h1,.js .hero .lead,.js .hero .cta,.js .hero .idea,.js .pl{opacity:0;animation:up .9s var(--ease) forwards}
+.js .hero .lead{animation-delay:.12s}.js .hero .cta{animation-delay:.2s}.js .hero .idea{animation-delay:.75s}
+.js .p1{animation-delay:.25s}.js .p2{animation-delay:.4s}.js .p3{animation-delay:.6s}
+@keyframes up{from{opacity:0;translate:0 28px}to{opacity:1;translate:0 0}}
+
+/* el problema */
+.pain{list-style:none;margin-top:3.5rem;border-top:1px solid var(--line)}
+.pain li{display:grid;grid-template-columns:1.25fr 1fr;gap:3vw;align-items:baseline;padding:1.7rem 0;border-bottom:1px solid var(--line);transition:padding .35s var(--ease)}
+.pain li:hover{padding-left:1rem}
+.pain q{quotes:none;font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;font-style:italic;font-weight:300;font-size:clamp(1.4rem,2.6vw,2.2rem);line-height:1.1;letter-spacing:-.02em}
+.pain p{color:var(--fog);max-width:26rem}.pain p b{color:var(--olive-l);font-weight:600}
+
+/* dos pilares */
+.pil{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:3.5rem}
+.pc{position:relative;border-radius:30px;overflow:hidden;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);isolation:isolate}
+.pc:nth-child(2){margin-top:4.5rem}
+.pc>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s var(--ease)}
+.pc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,6,6,.1) 0,rgba(6,6,6,.82) 40%,rgba(6,6,6,.97) 100%)}
+.pc:hover>img{transform:scale(1.05)}
+.pc .in{padding:clamp(1.4rem,3vw,2.4rem)}
+.pc h3{font-size:clamp(2rem,3.4vw,3rem)}
+.pc p{color:var(--fog);margin:.8rem 0 1.4rem;max-width:26rem}
+.pc ul{list-style:none;border-top:1px solid var(--line);margin-bottom:1.6rem}
+.pc li{padding:.7rem 0;border-bottom:1px solid var(--line);font-weight:600;display:flex;justify-content:space-between;gap:1rem}
+.pc li span{color:var(--fog);font-weight:400;font-size:.92rem;text-align:right}
+.also{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;color:var(--fog)}
+.also a{border:1px solid var(--line);border-radius:999px;padding:.45rem 1rem;color:var(--cream);transition:background .25s,border-color .25s}
+.also a:hover{background:rgba(241,235,221,.08);border-color:rgba(241,235,221,.4)}
+
+/* proyectos: tarjetas superpuestas */
+.pr-top{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+.arrows{display:flex;gap:.5rem}
+.arrows button{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:rgba(241,235,221,.04);cursor:pointer;display:grid;place-items:center;transition:background .25s,transform .25s var(--ease)}
+.arrows button:hover{background:var(--olive-l);color:#11140B}.arrows button:active{transform:scale(.92)}
+.arrows svg{width:20px;height:20px}
+.deck{position:relative;height:clamp(440px,48vw,580px);margin-top:3rem;touch-action:pan-y}
+.cd{position:absolute;top:0;left:0;width:62%;height:100%;border-radius:30px;overflow:hidden;border:1px solid var(--line);background:var(--smoke);cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate;
+  transition:transform .75s var(--ease),filter .75s var(--ease),opacity .5s;transform-origin:left center;box-shadow:0 50px 90px -40px #000}
+.cd>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.cd::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,6,6,0) 30%,rgba(6,6,6,.9) 100%)}
+.cd .in{padding:clamp(1.3rem,3vw,2.2rem);transition:opacity .4s}
+.cd .kind{display:inline-block;font-size:.82rem;font-weight:600;border-radius:999px;padding:.25rem .8rem;background:rgba(6,6,6,.6);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin-bottom:.9rem}
+.cd .kind.own{background:var(--olive-l);color:#11140B;border-color:transparent}
+.cd h3{font-size:clamp(1.7rem,3vw,2.6rem)}
+.cd p{color:#D5D2C6;max-width:30rem;margin-top:.6rem}
+.cd[data-p="0"]{transform:translateX(0) scale(1);z-index:4;cursor:default}
+.cd[data-p="1"]{transform:translateX(34%) scale(.88);z-index:3;filter:brightness(.62)}
+.cd[data-p="2"]{transform:translateX(64%) scale(.77);z-index:2;filter:brightness(.42)}
+.cd[data-p="3"]{transform:translateX(90%) scale(.67);z-index:1;filter:brightness(.26)}
+.cd[data-p="-1"]{transform:translateX(-16%) scale(1.04);z-index:5;opacity:0;pointer-events:none}
+.cd:not([data-p="0"]) .in{opacity:0}
+.cd[data-p="1"]:hover{filter:brightness(.75)}
+.dots{display:flex;gap:.4rem;margin-top:1.6rem}.dots i{width:26px;height:3px;border-radius:2px;background:var(--line);transition:background .3s,width .3s}.dots i.on{background:var(--olive-l);width:44px}
 .wk{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
-.wc{display:flex;flex-direction:column;gap:.6rem;border:2px solid var(--ink);border-radius:20px;padding:.8rem;background:var(--paper);transition:transform .4s,box-shadow .4s}
-.wc:hover{transform:translateY(-4px) rotate(-.5deg);box-shadow:6px 6px 0 var(--ink)}
-.wi{aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:var(--sage)}.wi img{width:100%;height:100%;object-fit:cover}
-.tg{display:flex;gap:.4rem;flex-wrap:wrap}.tg span{border:1.5px solid var(--ink);border-radius:999px;padding:.05rem .6rem;font-size:.75rem}
-.wc h3{font-size:1.4rem}.vp{font-weight:700;text-decoration:underline;text-underline-offset:4px;margin-top:auto}
-/* cierre */
-.end{background:var(--beige);text-align:center}.end h2{max-width:14em;margin:.5rem auto 1.6rem}
-@media(max-width:900px){.hero .w,.ct .g,.tm{grid-template-columns:1fr}.sv,.wk{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr 1fr}.mn .w{grid-template-columns:1fr}.st{grid-template-columns:1fr 1fr}.st li:nth-child(even){transform:none}
-.bulb{order:-1;width:170px}}
-@media(max-width:560px){.sv,.wk,.fg{grid-template-columns:1fr}.hr .btn{display:none}form{grid-template-columns:1fr;padding:1.4rem}.st{grid-template-columns:1fr}.who{flex-direction:column;text-align:center}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}}
+.wc{display:flex;flex-direction:column;gap:.6rem;border:1px solid var(--line);border-radius:22px;padding:.7rem .7rem 1.1rem;background:var(--smoke);transition:border-color .3s}
+.wc:hover{border-color:rgba(241,235,221,.4)}
+.wi{aspect-ratio:16/10;border-radius:15px;overflow:hidden;background:var(--smoke2)}.wi img{width:100%;height:100%;object-fit:cover}
+.tg{display:flex;gap:.4rem;flex-wrap:wrap;padding:0 .4rem}.tg span{border:1px solid var(--line);border-radius:999px;padding:.05rem .6rem;font-size:.75rem;color:var(--fog)}
+.wc h3{font-size:1.35rem;padding:0 .4rem}.vp{font-weight:600;color:var(--olive-l);padding:0 .4rem;margin-top:auto}
+
+/* reporte */
+.rp .w{display:grid;grid-template-columns:.85fr 1.15fr;gap:5vw;align-items:center}
+.rp ul{list-style:none;margin-top:2rem;border-top:1px solid var(--line)}
+.rp li{padding:.9rem 0;border-bottom:1px solid var(--line);display:flex;gap:1rem;align-items:baseline}
+.rp li b{font-family:var(--display);font-style:italic;font-weight:300;color:var(--olive-l);font-size:1.3rem;min-width:1.4em}
+.board{position:relative}
+.board::before{content:"";position:absolute;inset:-12% -8%;z-index:-1;background:radial-gradient(closest-side,rgba(183,199,140,.22),transparent);filter:blur(10px)}
+.bd{border-radius:28px;border:1px solid var(--line);background:linear-gradient(165deg,rgba(38,40,35,.94),rgba(14,15,13,.96));padding:clamp(1.1rem,2.4vw,1.8rem);box-shadow:0 60px 100px -40px #000,0 1px 0 rgba(255,255,255,.06) inset;transform:rotate(-1.5deg)}
+.bd header{position:static;padding:0;display:flex;justify-content:space-between;align-items:center;gap:1rem;border:0;margin-bottom:1.2rem}
+.bd header img{height:30px}.bd header span{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:.2rem .75rem;color:var(--fog)}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+.kp div{background:rgba(241,235,221,.05);border-radius:16px;padding:.9rem}
+.kp small{color:var(--fog);font-size:.78rem;display:block}
+.kp strong{font-family:var(--display);font-variation-settings:"SOFT" 100;font-weight:800;font-size:clamp(1.6rem,3vw,2.3rem);letter-spacing:-.03em;line-height:1.15;display:block}
+.kp em{font-style:normal;font-size:.78rem;color:var(--olive-l)}
+.ch{margin-top:.7rem;background:rgba(241,235,221,.05);border-radius:16px;padding:.9rem .9rem .5rem}
+.ch small{color:var(--fog);font-size:.78rem}.ch svg{width:100%;height:auto;margin-top:.4rem;overflow:visible}
+.float{position:absolute;right:-4%;bottom:-9%;width:min(270px,62%);border-radius:20px;padding:1rem 1.1rem;background:linear-gradient(160deg,#2B3A22,#19210F);border:1px solid rgba(183,199,140,.4);box-shadow:0 30px 60px -20px #000;transform:rotate(3deg);font-size:.9rem}
+.float b{display:block;color:var(--olive-l);margin-bottom:.3rem}
+.note{font-size:.82rem;color:var(--fog);margin-top:1.6rem;max-width:46%}
+
+/* primeros 30 días */
+.tl{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);margin-top:4rem;position:relative}
+.tl::before{content:"";position:absolute;left:0;right:0;top:7px;height:1px;background:linear-gradient(90deg,var(--olive-l),var(--line) 80%)}
+.tl li{padding:2.2rem 1.6rem 0 0;position:relative}
+.tl li::before{content:"";position:absolute;top:0;left:0;width:15px;height:15px;border-radius:50%;background:var(--bg);border:2px solid var(--olive-l)}
+.tl li:first-child::before{background:var(--olive-l);box-shadow:0 0 0 6px rgba(183,199,140,.18)}
+.tl time{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.25rem;color:var(--olive-l)}
+.tl h3{margin:.5rem 0 .6rem}.tl p{color:var(--fog);font-size:.96rem}
+
+/* fundadores */
+.fd .w{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:center}
+.ph{position:relative}
+.ph::before{content:"";position:absolute;inset:8% -6% -8% 10%;border-radius:36px;background:linear-gradient(150deg,var(--olive),#2A3120);z-index:-1;transform:rotate(3deg)}
+.ph img{border-radius:30px;width:100%;aspect-ratio:3/2;object-fit:cover;box-shadow:0 50px 90px -40px #000}
+.ph figcaption{position:absolute;left:-3%;bottom:-7%;background:rgba(14,15,13,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:.8rem 1.1rem;line-height:1.3}
+.ph figcaption b{font-family:var(--display);font-variation-settings:"SOFT" 100;font-size:1.25rem;font-weight:800;display:block}
+.ph figcaption span{color:var(--fog);font-size:.9rem}
+.fd .lead+.lead{margin-top:1rem}
+.fd .cta{margin-top:2rem}
+
+/* preguntas */
+.fq .w{display:grid;grid-template-columns:.8fr 1.2fr;gap:5vw;align-items:start}
+.fq h2{position:sticky;top:110px}
+.fq details{border-bottom:1px solid var(--line);padding:1.25rem 0}.fq details:first-child{border-top:1px solid var(--line)}
+.fq summary{cursor:pointer;font-weight:600;font-size:1.12rem;list-style:none;display:flex;justify-content:space-between;gap:1.5rem;align-items:center}
+.fq summary::-webkit-details-marker{display:none}
+.fq summary::after{content:"";flex:none;width:12px;height:12px;border-right:2px solid var(--olive-l);border-bottom:2px solid var(--olive-l);transform:rotate(45deg);transition:transform .3s var(--ease);margin-right:.3rem}
+.fq details[open] summary::after{transform:rotate(-135deg)}
+.fq details p{color:var(--fog);margin-top:.8rem;max-width:40rem}
+
+/* reseñas (solo si hay reales) */
+.bub{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:3rem}
+.bub figure{background:var(--smoke);border:1px solid var(--line);border-radius:24px;padding:1.5rem}
+.bub blockquote{font-family:var(--display);font-style:italic;font-weight:300;font-size:1.25rem;line-height:1.3}.bub figcaption{color:var(--olive-l);margin-top:.8rem;font-weight:600}
+
+/* contacto */
+.ct .box{border-radius:40px;border:1px solid var(--line);background:linear-gradient(150deg,rgba(110,125,78,.34),rgba(20,21,19,.9) 55%);padding:clamp(1.6rem,5vw,4.5rem);display:grid;grid-template-columns:1fr 1.05fr;gap:5vw;align-items:start;position:relative;overflow:hidden}
+.ct .box::before{content:"";position:absolute;width:520px;height:520px;right:-180px;top:-220px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,221,51,.14),transparent)}
+.ct h2{font-size:clamp(2.2rem,4.6vw,3.8rem)}
+.acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.ct .idea{margin-top:2.4rem}
+form{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;position:relative}
+.f{display:flex;flex-direction:column;gap:.3rem}.f.full{grid-column:1/-1}
+label{font-size:.85rem;font-weight:600;color:var(--fog)}
+input,select,textarea{background:rgba(6,6,6,.5);border:1px solid var(--line);border-radius:14px;padding:.8rem 1rem;transition:border-color .2s,background .2s}
+select option{color:#111}textarea{min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--olive-l);background:rgba(6,6,6,.75)}
+.ok{grid-column:1/-1;display:none;background:rgba(183,199,140,.14);border:1px solid rgba(183,199,140,.4);padding:1rem;border-radius:14px}.ok.show{display:block}
+.er{grid-column:1/-1;display:none;background:rgba(217,165,74,.12);border:1px solid rgba(217,165,74,.45);padding:1rem;border-radius:14px}.er.show{display:block}.er a{text-decoration:underline}
+
+footer{border-top:1px solid var(--line);padding:3.5rem 0 1.6rem;font-size:.94rem;color:var(--fog);margin-top:clamp(4rem,8vw,7rem)}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2rem}
+.fg h4{color:var(--cream);font-weight:600;margin-bottom:.6rem;font-size:.94rem}
+.fg a{display:block;padding:.18rem 0;transition:color .2s}.fg a:hover{color:var(--cream)}.fg p{max-width:20rem;margin-top:.8rem}
+.fb{margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.85rem}
+.wa-f{position:fixed;right:18px;bottom:18px;z-index:50;width:56px;height:56px;border-radius:50%;background:#25D366;color:#06210F;display:grid;place-items:center;box-shadow:0 14px 30px -8px rgba(0,0,0,.8);transition:transform .25s var(--ease)}
+.wa-f:hover{transform:scale(1.08)}.wa-f svg{width:28px;height:28px}
+
+@media(max-width:1000px){.lks{display:none}.burger{display:block}}
+@media(max-width:900px){
+ .hero .w,.rp .w,.fd .w,.fq .w,.ct .box{grid-template-columns:1fr}
+ .hero{padding-top:7rem}.stack{height:440px;margin-top:1rem}
+ .pain li{grid-template-columns:1fr;gap:.6rem}
+ .pil{grid-template-columns:1fr}.pc:nth-child(2){margin-top:0}.pc{min-height:480px}
+ .cd{width:80%}.cd[data-p="1"]{transform:translateX(16%) scale(.9)}.cd[data-p="2"]{transform:translateX(30%) scale(.8)}.cd[data-p="3"]{transform:translateX(42%) scale(.7)}
+ .deck{height:480px}
+ .tl{grid-template-columns:1fr;margin-top:3rem}.tl::before{left:7px;right:auto;top:0;bottom:0;width:1px;height:auto;background:linear-gradient(180deg,var(--olive-l),var(--line) 80%)}
+ .tl li{padding:0 0 2.2rem 2.4rem}
+ .fq h2{position:static}.float{right:2%}
+ .fg{grid-template-columns:1fr 1fr}.wk{grid-template-columns:1fr 1fr}
+ .ph{margin-bottom:3rem}
+}
+@media(max-width:560px){
+ .hr .btn{display:none}form{grid-template-columns:1fr}.kp{grid-template-columns:1fr 1fr}.kp div:last-child{grid-column:1/-1}
+ .fg,.wk{grid-template-columns:1fr}.stack{height:400px;min-height:0}.p1{width:82%}.p2{width:78%}.p3{width:80%}
+ .ph figcaption{left:4%}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .hero h1,.js .hero .lead,.js .hero .cta,.js .hero .idea,.js .pl{opacity:1}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<div class="fog" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
+
 <header id="hd"><div class="w nav">
-<a href="#inicio" class="logo" aria-label="EMUNÁ, inicio"><img class="ld" src="/logo-horizontal.svg" alt="EMUNÁ" width="157" height="46"><img class="lc" src="/logo-horizontal-claro.svg" alt="" width="157" height="46"></a>
-<div class="hr"><a href="#" class="ic" id="wa2" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.4 5.4 0 0 0 2.6.9 2.2 2.2 0 0 0 1.5-1.1 1.9 1.9 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg></a><a href="#contacto" class="btn" id="ag">Agendar reunión</a><button class="burger" id="bg" aria-expanded="false" aria-controls="mn">Menú</button></div>
+<a href="#inicio" class="logo" aria-label="EMUNÁ, inicio"><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="143" height="42"></a>
+<nav class="lks" aria-label="Principal"><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#metodo">Cómo trabajamos</a><a href="#equipo">Nosotros</a><a href="#preguntas">Preguntas</a></nav>
+<div class="hr"><a href="#" class="ic" id="wa2" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.4 5.4 0 0 0 2.6.9 2.2 2.2 0 0 0 1.5-1.1 1.9 1.9 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg></a><a href="#contacto" class="btn sm" id="ag">Agendar reunión</a><button class="burger" id="bg" aria-expanded="false" aria-controls="mn">Menú</button></div>
 </div></header>
-<div class="mn" id="mn" aria-hidden="true"><div class="w"><nav aria-label="Menú principal">
-<a href="/admin" class="pnl" id="pnl" hidden>Ir al panel de administración →</a>
-<a href="#servicios">Servicios</a><a href="#metodo">Método</a><a href="/casos">Casos</a><a href="#resenas" id="rl" hidden>Reseñas</a><a href="#equipo">Equipo</a><a href="#contacto">Contacto</a>
-<small>Qué hacemos</small><a class="sub" href="/servicios/marketing-paid-media">Marketing y Paid Media</a><a class="sub" href="/servicios/diseno-desarrollo-web">Diseño y desarrollo web</a><a class="sub" href="/servicios/branding-contenidos">Branding y contenidos</a><a class="sub" href="#servicios">Consultoría y optimización</a><a class="sub" href="#servicios">SEO y posicionamiento</a><a class="sub" href="#servicios">SEM y Google Ads</a>
-</nav><aside><p>Buenos Aires, Argentina</p><p><a href="#" id="mlm">Escribinos por email</a></p><p><a href="#" id="wam" target="_blank" rel="noopener">Escribinos por WhatsApp</a></p><p><a href="#" id="igm" target="_blank" rel="noopener">Instagram</a></p></aside></div></div>
+
+<div class="mn" id="mn" aria-hidden="true"><div class="w"><nav aria-label="Menú">
+<a href="/admin" class="pnl" id="pnl" hidden>Ir al panel de administración</a>
+<a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#metodo">Cómo trabajamos</a><a href="#equipo">Nosotros</a><a href="#resenas" id="rl" hidden>Reseñas</a><a href="#preguntas">Preguntas</a><a href="#contacto">Contacto</a>
+</nav><aside><p>Buenos Aires, Argentina</p><a href="#" id="mlm">Escribinos por email</a><a href="#" id="wam" target="_blank" rel="noopener">Escribinos por WhatsApp</a><a href="#" id="igm" target="_blank" rel="noopener">Instagram</a></aside></div></div>
 
 <main>
-<section class="hero" id="inicio"><div class="bg" aria-hidden="true"><i></i><i></i><i></i></div><div class="w">
+<section class="hero" id="inicio"><div class="w">
 <div>
-<span class="tag">Estudio creativo y marketing digital</span>
-<h1>Ideas con <span class="ital">estrategia</span> para que tu marca <span class="hand">crezca</span>.</h1>
-<p class="lead">Somos Gise y Esteban. Diseñamos tu web, tu marca y tus campañas para que cada idea llegue a la gente indicada y se convierta en clientes.</p>
-<div class="cta"><a href="#contacto" class="btn">Contanos tu proyecto →</a><a href="/casos" class="btn ghost">Mirá nuestros casos</a></div>
+<h1>Tus anuncios gastan. <i>Tu WhatsApp sigue callado.</i></h1>
+<p class="lead">Somos Gise y Esteban. Gestionamos tu publicidad en Meta y Google y diseñamos tu sitio web para que la plata que invertís vuelva en consultas, y para que sepas de dónde vino cada una.</p>
+<div class="cta"><a href="#contacto" class="btn">Contanos tu proyecto</a><a href="#proyectos" class="btn ghost">Ver proyectos</a></div>
+<button class="idea" id="luz" type="button" aria-pressed="false" aria-label="Encender o apagar la luz del fondo"><svg viewBox="0 0 220 300" aria-hidden="true"><g stroke="#11140B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M84 214C84 190 56 172 44 138 28 92 58 32 110 32s82 60 66 106c-12 34-40 52-40 76z" fill="#FFDD33"/><path d="M62 98C66 70 82 54 102 50" fill="none" stroke="#FFF6C2" stroke-width="7"/><rect x="82" y="214" width="56" height="16" rx="7" fill="#B7C78C"/><rect x="86" y="234" width="48" height="16" rx="7" fill="#B7C78C"/><path d="M96 256h28c0 10-7 16-14 16s-14-6-14-16z" fill="#6E7D4E"/></g></svg><span>una idea sola inspira,<br>una idea con plan vende</span></button>
 </div>
-<svg class="bulb" viewBox="0 0 220 300" aria-hidden="true"><g stroke="#2C3320" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-<path d="M110 20V6M54 38L44 26M166 38l10-12M26 94L10 88M194 94l16-6" fill="none"/>
-<path d="M84 214C84 190 56 172 44 138 28 92 58 32 110 32s82 60 66 106c-12 34-40 52-40 76z" fill="#FFDD33"/>
-<path d="M62 98C66 70 82 54 102 50" fill="none" stroke="#F7F3EA" stroke-width="6" opacity=".85"/>
-<path d="M108 88C96 78 76 84 76 100 66 104 66 124 76 130 76 144 94 150 108 142z" fill="#F0C48C" stroke-width="4"/>
-<path d="M112 88c12-10 32-4 32 12 10 4 10 24 0 30 0 14-18 20-32 12z" fill="#F0C48C" stroke-width="4"/>
-<path d="M82 104q5-6 10 0t10 0M80 118q5-6 10 0t12 0M84 132q5-6 10 0t8 0M138 104q-5-6-10 0t-10 0M140 118q-5-6-10 0t-12 0M136 132q-5-6-10 0t-8 0" fill="none" stroke-width="3.5"/>
-<rect x="82" y="214" width="56" height="14" rx="6" fill="#6E7D4E"/>
-<rect x="84" y="230" width="52" height="14" rx="6" fill="#6E7D4E"/>
-<rect x="90" y="246" width="40" height="14" rx="6" fill="#6E7D4E"/>
-<path d="M98 262h24c0 8-6 14-12 14s-12-6-12-14z" fill="#2C3320"/></g></svg>
+<div class="stack" aria-hidden="true">
+ <div class="pl p1" data-d=".05"><small>Consultas por semana</small><strong>+38%</strong><div class="bars"><b style="height:28%"></b><b style="height:36%"></b><b style="height:31%"></b><b style="height:44%"></b><b style="height:58%"></b><b style="height:71%"></b><b style="height:86%"></b><b style="height:100%"></b></div></div>
+ <div class="pl p2" data-d="-.04"><div class="bar"><span></span><span></span><span></span></div><img src="/img/web.jpg" alt="" width="1200" height="800"></div>
+ <div class="pl p3" data-d=".09"><div class="who"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.4 5.4 0 0 0 2.6.9 2.2 2.2 0 0 0 1.5-1.1 1.9 1.9 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg></span><small>Consulta nueva, hace un minuto</small></div><p>Hola, vi el anuncio. ¿Me pasás precios y cómo trabajan?</p></div>
+</div>
 </div></section>
 
-<div class="mq" aria-hidden="true"><div><span>Paid media</span><span>SEO</span><span>SEM</span><span>Diseño web</span><span>Branding</span><span>Contenido</span><span>Landing pages</span><span>Consultoría</span><span>Paid media</span><span>SEO</span><span>SEM</span><span>Diseño web</span><span>Branding</span><span>Contenido</span><span>Landing pages</span><span>Consultoría</span></div></div>
-
-<section class="say"><div class="w rv">
-<p>Una idea sola</p><strong>inspira.</strong>
-<p>Una idea con plan</p><strong class="g">vende.</strong>
+<section class="sec" id="problema"><div class="w">
+<h2>¿Te suena alguna? <i>A casi todos les pasa.</i></h2>
+<ul class="pain">
+<li><q>Pongo plata en anuncios y no sé cuál me trae clientes.</q><p><b>Medimos cada consulta</b> y te decimos de qué anuncio vino y cuánto costó.</p></li>
+<li><q>Mi web está linda, pero nadie me escribe.</q><p><b>La rediseñamos</b> para que escribirte sea el camino más corto desde cualquier página.</p></li>
+<li><q>Me llegan curiosos, no clientes.</q><p><b>Ajustamos a quién le hablás</b> y qué le decís, hasta que la consulta que llega sea la que querés.</p></li>
+<li><q>Cada proveedor me habla en un idioma distinto.</q><p><b>Hablás con nosotros dos</b>, que somos quienes hacemos el trabajo. Sin intermediarios.</p></li>
+</ul>
 </div></section>
 
-<section id="servicios"><div class="w">
-<span class="tag rv">Servicios</span><h2 class="rv">Lo que hacemos <span class="ital">para vos</span></h2>
-<p class="lead rv">Seis áreas que se complementan. Podés empezar por la que más necesites y sumar el resto cuando quieras.</p>
-<div class="sv">
-<article class="card rv"><span class="n">01</span><h3><a href="/servicios/marketing-paid-media">Marketing y Paid Media</a></h3><p>Campañas que llegan a la persona indicada en el momento justo, con resultados que se pueden medir.</p><ul><li>Meta Ads</li><li>Embudos</li><li>Análisis</li></ul><a href="/servicios/marketing-paid-media">Conocé el servicio →</a></article>
-<article class="card rv"><span class="n">02</span><h3><a href="/servicios/diseno-desarrollo-web">Diseño y desarrollo web</a></h3><p>Sitios claros, rápidos y fáciles de usar, pensados para que tus visitantes entiendan y se animen a escribirte.</p><ul><li>Diseño web</li><li>Landing pages</li><li>Tiendas online</li><li>SEO técnico</li></ul><a href="/servicios/diseno-desarrollo-web">Conocé el servicio →</a></article>
-<article class="card rv"><span class="n">03</span><h3><a href="/servicios/branding-contenidos">Branding y contenidos</a></h3><p>Una identidad con personalidad y una voz propia, que se reconoce en cada lugar donde aparecés.</p><ul><li>Identidad visual</li><li>Estrategia de marca</li><li>Contenidos</li></ul><a href="/servicios/branding-contenidos">Conocé el servicio →</a></article>
-<article class="card rv"><span class="n">04</span><h3>Consultoría y optimización</h3><p>Revisamos dónde estás hoy y te armamos un plan con las prioridades que más impacto tienen.</p><ul><li>Auditorías</li><li>Diagnóstico online</li><li>Conversión</li></ul><a href="#contacto" data-s="Consultoría y optimización">Quiero una auditoría →</a></article>
-<article class="card rv"><span class="n">05</span><h3>SEO y posicionamiento</h3><p>Trabajamos para que tu sitio aparezca en Google cuando tus clientes buscan lo que ofrecés, con contenido útil y mejoras técnicas que se sostienen en el tiempo.</p><ul><li>SEO orgánico</li><li>SEO técnico</li><li>Contenidos</li><li>SEO local</li></ul><a href="#contacto" data-s="SEO y posicionamiento">Quiero aparecer en Google →</a></article>
-<article class="card rv"><span class="n">06</span><h3>SEM y Google Ads</h3><p>Anuncios que te muestran primero en las búsquedas, justo cuando alguien está buscando tu servicio, con un presupuesto cuidado y medido.</p><ul><li>Google Ads</li><li>Búsqueda</li><li>Shopping</li><li>Remarketing</li></ul><a href="#contacto" data-s="SEM y Google Ads">Quiero mis anuncios →</a></article>
+<section class="sec" id="servicios" style="padding-top:0"><div class="w">
+<h2>Hacemos dos cosas. <i>Las hacemos a fondo.</i></h2>
+<p class="lead">Publicidad que trae gente y un sitio que la convierte en consultas. Funcionan mejor juntas, pero podés empezar por la que más te urge.</p>
+<div class="pil">
+<article class="pc"><img src="/img/pauta.jpg" alt="Tablero con métricas de campañas publicitarias" width="1200" height="800" loading="lazy"><div class="in">
+<h3>Tráfico y pauta</h3><p>Campañas en Meta y Google planificadas, medidas y ajustadas todas las semanas.</p>
+<ul><li>Meta Ads <span>Instagram y Facebook</span></li><li>Google Ads <span>Búsqueda, Shopping y remarketing</span></li><li>Embudos de venta <span>Del anuncio al WhatsApp</span></li><li>Medición <span>Qué funciona y cuánto cuesta</span></li></ul>
+<a href="/servicios/marketing-paid-media" class="btn sm">Conocé el servicio</a></div></article>
+<article class="pc"><img src="/img/web.jpg" alt="Escritorio de diseño con dos pantallas" width="1200" height="800" loading="lazy"><div class="in">
+<h3>Diseño y desarrollo web</h3><p>Sitios rápidos, claros y hechos a medida, pensados para que quien entra te escriba.</p>
+<ul><li>Sitios web <span>Diseño propio, sin plantillas</span></li><li>Landing pages <span>Una página, un objetivo</span></li><li>Tiendas online <span>Catálogo, carrito y pagos</span></li><li>Sistemas a medida <span>Pedidos, turnos, paneles</span></li></ul>
+<a href="/servicios/diseno-desarrollo-web" class="btn sm">Conocé el servicio</a></div></article>
+</div>
+<p class="also">También sumamos, cuando el proyecto lo pide: <a href="/servicios/branding-contenidos">Branding y contenidos</a><a href="#contacto" data-s="SEO y posicionamiento">SEO y posicionamiento</a><a href="#contacto" data-s="Consultoría y optimización">Consultoría y auditorías</a></p>
+</div></section>
 
-</div></div></section>
+<section class="sec" id="proyectos"><div class="w">
+<div class="pr-top"><div><h2>Proyectos <i>para mirar de cerca.</i></h2><p class="lead">Desarrollos propios y ejercicios de concepto: así pensamos una marca, su sitio y sus campañas.</p></div>
+<div class="arrows"><button type="button" id="pv" aria-label="Proyecto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" id="nx" aria-label="Proyecto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button></div></div>
+<div class="deck" id="deck" role="group" aria-roledescription="carrusel" aria-label="Proyectos">
+<article class="cd"><img src="/img/heladeria.jpg" alt="Vitrina de helados artesanales" width="1200" height="900" loading="lazy"><div class="in"><span class="kind own">Desarrollo propio</span><h3>Sistema para heladería y café</h3><p>Un sistema hecho a medida para ordenar el día a día del local, del mostrador a la caja.</p></div></article>
+<article class="cd"><img src="/img/cafe.jpg" alt="Interior de una cafetería con cartel luminoso" width="1200" height="790" loading="lazy"><div class="in"><span class="kind">Proyecto de concepto</span><h3>Café de especialidad</h3><p>Sitio de una sola página y campaña de apertura en Instagram para llenar el local la primera semana.</p></div></article>
+<article class="cd"><img src="/img/helados.jpg" alt="Cucuruchos de helado decorados con flores y frutas" width="1200" height="800" loading="lazy"><div class="in"><span class="kind">Proyecto de concepto</span><h3>Heladería artesanal</h3><p>Campaña de verano en Meta Ads con pedidos directos por WhatsApp y remarketing a quienes ya compraron.</p></div></article>
+<article class="cd"><img src="/img/boceto.jpg" alt="Bocetos de pantallas de un sitio web pintados a mano" width="1200" height="800" loading="lazy"><div class="in"><span class="kind own">Proyecto propio</span><h3>EMUNÁ, de adentro</h3><p>Este sitio, su panel de clientes y las propuestas online que mandamos: todo diseñado y programado por nosotros.</p></div></article>
+</div>
+<div class="dots" id="dots" aria-hidden="true"></div>
+</div></section>
 
-<section class="giant" aria-label="Lo que buscamos"><div class="w"><span class="tag">En cada proyecto buscamos</span><p class="gw">Resul-</p><p class="gw">tados<span class="hand">.</span></p></div></section>
+<section class="sec" id="trabajos" hidden style="padding-top:0"><div class="w"><h2>Casos <i>con nombre y apellido.</i></h2><div class="wk" id="wk"></div></div></section>
 
-<section id="metodo" style="padding-top:0"><div class="w">
-<span class="tag rv">Método</span><h2 class="rv">Así trabajamos</h2>
-<ol class="st">
-<li class="rv"><b>1</b><h3>Diagnóstico</h3><p>Conocemos tu negocio, tu audiencia y tu punto de partida.</p></li>
-<li class="rv"><b>2</b><h3>Estrategia</h3><p>Definimos objetivos, mensajes, canales y métricas.</p></li>
-<li class="rv"><b>3</b><h3>Desarrollo</h3><p>Diseñamos y construimos web, piezas y campañas.</p></li>
-<li class="rv"><b>4</b><h3>Lanzamiento</h3><p>Salimos al aire con seguimiento y revisión técnica.</p></li>
-<li class="rv"><b>5</b><h3>Mejora continua</h3><p>Medimos, aprendemos y ajustamos con datos.</p></li>
-</ol></div></section>
+<section class="sec rp" id="reporte"><div class="w">
+<div>
+<h2>Cada mes ves <i>tus números, sin vueltas.</i></h2>
+<p class="lead">Un reporte que se lee en cinco minutos. Nada de planillas eternas ni palabras raras.</p>
+<ul><li><b>1</b>Qué funcionó y qué no</li><li><b>2</b>Cuánto costó cada consulta</li><li><b>3</b>Qué proponemos para el mes que viene</li></ul>
+</div>
+<div class="board">
+ <div class="bd" data-d=".03">
+  <header><img src="/logo-horizontal-claro.svg" alt="" width="102" height="30"><span>Reporte mensual de ejemplo</span></header>
+  <div class="kp"><div><small>Consultas del mes</small><strong>124</strong><em>38% más que el mes anterior</em></div><div><small>Costo por consulta</small><strong>−27%</strong><em>más eficiente</em></div><div><small>Ventas desde campañas</small><strong>31</strong><em>atribuidas</em></div></div>
+  <div class="ch"><small>Consultas por mes</small>
+   <svg viewBox="0 0 600 170" aria-hidden="true"><defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B7C78C" stop-opacity=".45"/><stop offset="1" stop-color="#B7C78C" stop-opacity="0"/></linearGradient></defs>
+   <path d="M0 140 C60 132 90 128 120 120 S200 108 240 96 320 84 360 66 450 50 480 40 560 22 600 12 V170 H0z" fill="url(#gr)"/>
+   <path d="M0 140 C60 132 90 128 120 120 S200 108 240 96 320 84 360 66 450 50 480 40 560 22 600 12" fill="none" stroke="#B7C78C" stroke-width="3" stroke-linecap="round"/>
+   <circle cx="596" cy="13" r="6" fill="#FFDD33"/></svg></div>
+ </div>
+ <div class="float" data-d="-.06"><b>El mes que viene proponemos</b>Volver a mostrarle el anuncio a quien ya visitó tu web.</div>
+ <p class="note">Reporte ilustrativo. El tuyo se arma con los números de tu negocio.</p>
+</div>
+</div></section>
 
-<section style="padding-top:0"><div class="w"><div class="cs rv"><span class="tag" style="color:var(--beige)">Casos</span><h2>Mirá lo que ya hicimos</h2><p>Sitios, campañas y marcas que armamos junto a nuestros clientes, con enlaces, fotos y videos.</p><a href="/casos" class="btn">Ver casos →</a></div></div></section>
+<section class="sec" id="metodo"><div class="w">
+<h2>Tus primeros 30 días, <i>sin sorpresas.</i></h2>
+<ol class="tl">
+<li><time>Día 1</time><h3>Nos conocemos</h3><p>Una charla para entender tu negocio, tus números y qué querés lograr. Pedimos los accesos.</p></li>
+<li><time>Semana 1</time><h3>Diagnóstico</h3><p>Revisamos tu web, tus anuncios y a tu competencia. Te contamos qué arreglaríamos primero.</p></li>
+<li><time>Semanas 2 y 3</time><h3>Manos a la obra</h3><p>Armamos las campañas o el diseño del sitio, y lo ves avanzar antes de que salga.</p></li>
+<li><time>Día 30</time><h3>Primer reporte</h3><p>Miramos juntos los resultados y decidimos qué ajustar el mes siguiente.</p></li>
+</ol>
+</div></section>
 
-<section id="trabajos" hidden style="padding-top:0"><div class="w"><span class="tag">Últimos proyectos</span><h2>Lo último que armamos</h2><div class="wk" id="wk"></div></div></section>
+<section class="sec rev" id="resenas" hidden><div class="w"><h2>Lo que dicen <i>quienes ya trabajaron con nosotros.</i></h2><div class="bub" id="bub"></div></div></section>
 
-<section class="rev" id="resenas" hidden><div class="w"><span class="tag">Reseñas</span><h2>Nuestros clientes hablan por <span class="hand">EMUNÁ</span></h2><div class="bub" id="bub"></div></div></section>
+<section class="sec fd" id="equipo"><div class="w">
+<figure class="ph"><img src="/img/fundadores.jpg" alt="Esteban y Gise, fundadores de EMUNÁ, trabajando en sus computadoras" width="1400" height="933" loading="lazy" data-d=".03"><figcaption><b>Gise y Esteban</b><span>CEOs y fundadores de EMUNÁ</span></figcaption></figure>
+<div>
+<h2>Un estudio de dos. <i>Hablás con quien hace el trabajo.</i></h2>
+<p class="lead">Fundamos EMUNÁ para trabajar como nos gustaría que trabajen con nosotros: pocos clientes, mucha dedicación y números a la vista.</p>
+<p class="lead">Entre los dos cubrimos la pauta y el desarrollo web. No hay ejecutivos de cuenta ni pasamanos: tu proyecto lo llevamos nosotros, de la primera charla al reporte.</p>
+<div class="cta"><a href="#" class="btn" id="ag2">Agendar una reunión</a><a href="#" class="btn ghost" id="ig3" target="_blank" rel="noopener">Seguinos en Instagram</a></div>
+</div>
+</div></section>
 
-<section id="equipo"><div class="w">
-<span class="tag rv">Equipo</span><h2 class="rv">Quiénes están <span class="ital">detrás</span></h2>
-<p class="lead rv">EMUNÁ es un estudio creativo de dos. Gise y Esteban trabajan codo a codo con cada cliente, de la primera charla al resultado final.</p>
-<div class="tm">
-<div class="who rv"><div class="av" aria-hidden="true">G</div><div><h3>Gise</h3><p>Estudio creativo EMUNÁ</p></div></div>
-<div class="who rv"><div class="av" aria-hidden="true">E</div><div><h3>Esteban</h3><p>Estudio creativo EMUNÁ</p></div></div>
-</div></div></section>
+<section class="sec fq" id="preguntas"><div class="w">
+<h2>Antes de escribirnos, <i>lo que seguro te preguntás.</i></h2>
+<div>
+<details><summary>¿Cuánto cuesta trabajar con ustedes?</summary><p>Depende de lo que necesites. Después de la primera charla te mandamos una propuesta online con el alcance y el precio cerrado, sin costo y sin compromiso.</p></details>
+<details><summary>¿El presupuesto de los anuncios está incluido?</summary><p>No. La inversión en publicidad la pagás vos directo a Meta o a Google, y vos decidís cuánto. Nuestro trabajo es que ese presupuesto rinda más.</p></details>
+<details><summary>¿De quién son las cuentas publicitarias y el sitio?</summary><p>Tuyos. Las cuentas se crean a tu nombre y el sitio queda en tu dominio. Si un día dejamos de trabajar juntos, te llevás todo.</p></details>
+<details><summary>¿Cuánto tarda un sitio web?</summary><p>Depende del tamaño del proyecto. En la propuesta te pasamos un calendario con fechas de entrega, y vas viendo el avance antes de publicar.</p></details>
+<details><summary>¿Trabajan con negocios que recién empiezan?</summary><p>Sí. Si todavía no tenés web ni campañas, arrancamos por lo que más impacto tiene para tu etapa y sumamos el resto cuando haga falta.</p></details>
+</div>
+</div></section>
 
-<section class="end"><div class="w rv"><span class="tag">¿Tenés un proyecto en mente?</span><h2>Contanos tu idea y la ponemos en marcha</h2><a href="#" class="btn" id="ag2">Agendar una reunión →</a></div></section>
-
-<section class="ct" id="contacto"><div class="w g">
-<div><span class="tag">Contacto</span><h2>Hablemos de <span class="ital" style="color:var(--beige)">tu próximo paso</span></h2>
-<p class="lead">Contanos qué necesitás y cómo está hoy tu negocio. Te respondemos con una propuesta de próximos pasos, sin compromiso.</p>
-<div class="acts"><a href="#" class="btn" id="wa" target="_blank" rel="noopener">Escribinos por WhatsApp →</a><a href="#" class="btn ghost" id="ml">Mandanos un email</a><a href="#" class="btn ghost" id="ig3" target="_blank" rel="noopener">Seguinos en Instagram</a></div></div>
-<form id="lf">
+<section class="sec ct" id="contacto" style="padding-bottom:0"><div class="w"><div class="box">
+<div><h2>Hablemos de <i>tu próximo paso.</i></h2>
+<p class="lead">Contanos qué necesitás y cómo está hoy tu negocio. Te respondemos en menos de 48 horas hábiles.</p>
+<div class="acts"><a href="#" class="btn" id="wa" target="_blank" rel="noopener">Escribinos por WhatsApp</a><a href="#" class="btn ghost" id="ml">Mandanos un email</a></div>
+<p class="idea"><svg viewBox="0 0 220 300" aria-hidden="true"><g stroke="#11140B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="M84 214C84 190 56 172 44 138 28 92 58 32 110 32s82 60 66 106c-12 34-40 52-40 76z" fill="#FFDD33"/><path d="M62 98C66 70 82 54 102 50" fill="none" stroke="#FFF6C2" stroke-width="7"/><rect x="82" y="214" width="56" height="16" rx="7" fill="#B7C78C"/><rect x="86" y="234" width="48" height="16" rx="7" fill="#B7C78C"/><path d="M96 256h28c0 10-7 16-14 16s-14-6-14-16z" fill="#6E7D4E"/></g></svg><span>¿tenés una idea a medias?<br>traela igual, la armamos juntos</span></p></div>
+<form id="lf" novalidate>
 <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
 <div class="f"><label for="n">Nombre</label><input id="n" name="name" autocomplete="name" required minlength="2"></div>
 <div class="f"><label for="e">Email</label><input id="e" name="email" type="email" autocomplete="email" required></div>
-<div class="f"><label for="p">Teléfono</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
-<div class="f"><label for="c">Empresa o marca</label><input id="c" name="company" autocomplete="organization"></div>
-<div class="f full"><label for="s">Área de interés</label><select id="s" name="service"><option value="">Elegí una opción</option><option>Marketing & Paid Media</option><option>Diseño y desarrollo web</option><option>Branding & Content Strategy</option><option>Consultoría y optimización</option><option>SEO y posicionamiento</option><option>SEM y Google Ads</option><option>Todavía no lo sé</option></select></div>
+<div class="f"><label for="p">WhatsApp (opcional)</label><input id="p" name="phone" type="tel" autocomplete="tel"></div>
+<div class="f"><label for="s">Qué necesitás</label><select id="s" name="service"><option value="">Elegí una opción</option><option value="Marketing & Paid Media">Publicidad en Meta o Google</option><option>Diseño y desarrollo web</option><option value="Branding & Content Strategy">Branding y contenidos</option><option>SEO y posicionamiento</option><option>Consultoría y optimización</option><option>SEM y Google Ads</option><option>Todavía no lo sé</option></select></div>
 <div class="f full"><label for="m">Contanos tu proyecto</label><textarea id="m" name="message" required minlength="15"></textarea></div>
-<div class="ok" id="ok" role="status">¡Gracias! Recibimos tu consulta y te escribimos en menos de 48 horas hábiles.</div>
-<div class="full"><button class="btn" type="submit" id="sb">Enviar consulta →</button></div>
-</form></div></section>
+<div class="ok" id="ok" role="status">Recibimos tu consulta. Te escribimos en menos de 48 horas hábiles.</div>
+<div class="er" id="er" role="alert"></div>
+<div class="full"><button class="btn" type="submit" id="sb">Enviar consulta</button></div>
+</form>
+</div></div></section>
 </main>
 
-<footer><div class="w fg"><div><img src="/logo-emuna-claro.svg" alt="EMUNÁ, estrategia digital" width="220" height="151" style="display:block;margin-bottom:.8rem"><p>Estudio creativo y de marketing digital en Buenos Aires.</p></div>
-<div><h4>Servicios</h4><a href="/servicios/marketing-paid-media">Marketing y Paid Media</a><a href="/servicios/diseno-desarrollo-web">Diseño y desarrollo web</a><a href="/servicios/branding-contenidos">Branding y contenidos</a><a href="#servicios">Consultoría y optimización</a><a href="#servicios">SEO y posicionamiento</a><a href="#servicios">SEM y Google Ads</a></div>
-<div><h4>Menú</h4><a href="#inicio">Inicio</a><a href="#metodo">Método</a><a href="/casos">Casos</a><a href="#equipo">Equipo</a><a href="#contacto">Contacto</a></div>
+<footer><div class="w fg"><div><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="170" height="50"><p>Estudio boutique de publicidad digital y diseño web en Buenos Aires.</p></div>
+<div><h4>Servicios</h4><a href="/servicios/marketing-paid-media">Tráfico y pauta</a><a href="/servicios/diseno-desarrollo-web">Diseño y desarrollo web</a><a href="/servicios/branding-contenidos">Branding y contenidos</a></div>
+<div><h4>Estudio</h4><a href="#proyectos">Proyectos</a><a href="/casos">Casos</a><a href="#metodo">Cómo trabajamos</a><a href="#equipo">Nosotros</a><a href="#preguntas">Preguntas</a></div>
 <div><h4>Contacto</h4><a href="#" id="fm">Email</a><a href="#" id="fw" target="_blank" rel="noopener">WhatsApp</a><a href="#" id="fi" target="_blank" rel="noopener">Instagram</a></div></div>
-<div class="w fb"><span>© <span id="yr"></span> EMUNÁ · Estudio creativo</span><span>Buenos Aires, Argentina · <a href="/admin" style="opacity:.6">Acceso</a></span></div></footer>
+<div class="w fb"><span>© <span id="yr"></span> EMUNÁ, Buenos Aires</span><span>Fotos de ilustración: Unsplash. <a href="/admin" style="opacity:.7">Acceso</a></span></div></footer>
+
+<a href="#" class="wa-f" id="waf" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.4 5.4 0 0 0 2.6.9 2.2 2.2 0 0 0 1.5-1.1 1.9 1.9 0 0 0 .1-1.1c0-.1-.2-.2-.4-.3z"/></svg></a>
 
 <script>
-const CONFIG={whatsapp:"5491149711517",email:"agency.emuna@gmail.com",agenda:"",instagram:"https://www.instagram.com/gise.ads/",heroVideo:""};
+const CONFIG={whatsapp:"5491149711517",email:"agency.emuna@gmail.com",agenda:"",instagram:"https://www.instagram.com/gise.ads/"};
 /* agenda: enlace de tu calendario de reuniones (Calendly, Cal.com u otro). Si está vacío, el botón lleva al formulario.
-   instagram: enlace a tu perfil. heroVideo: enlace a un video corto en mp4 para el fondo del inicio (opcional). */
+   instagram: enlace a tu perfil. */
 /* Reseñas reales: pegá los mensajes de tus clientes acá. Mientras la lista esté vacía, la sección no se muestra.
    Formato: {t:"Texto del mensaje",a:"Nombre o marca"} */
 const REVIEWS=[];
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const still=matchMedia("(prefers-reduced-motion:reduce)").matches;
 $("#yr").textContent=new Date().getFullYear();
 const WA=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Hola EMUNÁ, quiero hablar sobre un proyecto.")}`,MAIL=`mailto:${CONFIG.email}?subject=${encodeURIComponent("Consulta desde el sitio")}`;
-["#wa","#wa2","#wam","#fw"].forEach(i=>$(i).href=WA);["#ml","#mlm","#fm"].forEach(i=>$(i).href=MAIL);
+["#wa","#wa2","#wam","#fw","#waf"].forEach(i=>$(i).href=WA);["#ml","#mlm","#fm"].forEach(i=>$(i).href=MAIL);
 ["#ag","#ag2"].forEach(i=>{const e=$(i);e.href=CONFIG.agenda||"#contacto";if(CONFIG.agenda){e.target="_blank";e.rel="noopener"}});
 ["#igm","#fi","#ig3"].forEach(i=>{if(CONFIG.instagram)$(i).href=CONFIG.instagram;else $(i).hidden=true});
-if(CONFIG.heroVideo){const v=document.createElement("video");v.className="hv";v.src=CONFIG.heroVideo;v.autoplay=v.muted=v.loop=v.playsInline=true;v.setAttribute("aria-hidden","true");$("#inicio").prepend(v)}
 if(REVIEWS.length){$("#resenas").hidden=false;$("#rl").hidden=false;
- $("#bub").innerHTML=REVIEWS.map(r=>`<figure><blockquote></blockquote><figcaption></figcaption></figure>`).join("");
- document.querySelectorAll("#bub figure").forEach((f,i)=>{f.querySelector("blockquote").textContent=REVIEWS[i].t;f.querySelector("figcaption").textContent=REVIEWS[i].a});}
-/* Botón del panel: solo aparece si hay una sesión iniciada de un administrador */
-/* La sesión dura una hora y esta página no la renueva: si ya venció pero sigue guardada, el botón se muestra igual
+ $("#bub").innerHTML=REVIEWS.map(()=>`<figure><blockquote></blockquote><figcaption></figcaption></figure>`).join("");
+ $$("#bub figure").forEach((f,i)=>{f.querySelector("blockquote").textContent=REVIEWS[i].t;f.querySelector("figcaption").textContent=REVIEWS[i].a});}
+
+/* Botón del panel: solo aparece si hay una sesión iniciada de un administrador.
+   La sesión dura una hora y esta página no la renueva: si ya venció pero sigue guardada, el botón se muestra igual
    (el panel pide iniciar sesión de nuevo si hace falta). Solo se oculta si se confirmó que la cuenta no es administradora. */
 try{const k=Object.keys(localStorage).find(x=>/^sb-.+-auth-token$/.test(x)),ss=k&&JSON.parse(localStorage.getItem(k)),tk=ss&&ss.access_token;
  if(tk){if(localStorage.getItem("emuna_panel")!=="0")$("#pnl").hidden=false;
   if(!(ss.expires_at&&ss.expires_at*1000<Date.now()))fetch("/api/me",{headers:{Authorization:"Bearer "+tk}}).then(r=>r.ok?r.json():null).then(d=>{if(!d)return;$("#pnl").hidden=!d.panel;localStorage.setItem("emuna_panel",d.panel?"1":"0")}).catch(()=>{})}}catch(e){}
-addEventListener("scroll",()=>$("#hd").classList.toggle("s",scrollY>30),{passive:true});
+
+/* encabezado y menú */
 const mn=$("#mn"),bg=$("#bg");
 function menu(o){mn.classList.toggle("o",o);document.body.classList.toggle("mo",o);bg.setAttribute("aria-expanded",o);bg.textContent=o?"Cerrar":"Menú";mn.setAttribute("aria-hidden",!o)}
 bg.onclick=()=>menu(!mn.classList.contains("o"));
 mn.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>menu(false)));
 addEventListener("keydown",e=>{if(e.key==="Escape")menu(false)});
-const gws=document.querySelectorAll(".gw"),still=matchMedia("(prefers-reduced-motion:reduce)").matches;
-function gwm(){if(still)return;gws.forEach((g,i)=>{const r=g.getBoundingClientRect(),p=(r.top+r.height/2)/innerHeight-.5;g.style.transform=`translateX(${(p*(i?-1:1)*90).toFixed(1)}px)`})}
-addEventListener("scroll",gwm,{passive:true});gwm();
-fetch("/api/cases").then(r=>r.ok?r.json():[]).then(l=>{if(!l.length)return;$("#trabajos").hidden=false;l.forEach(c=>{const a=document.createElement("a");a.className="wc";a.href="/casos/"+encodeURIComponent(c.slug);
+const lks=[...$$(".lks a")],secs=lks.map(a=>$(a.getAttribute("href")));
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)lks.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}),{rootMargin:"-45% 0px -50% 0px"});secs.forEach(s=>s&&spy.observe(s));
+
+/* profundidad: las capas se mueven a distinta velocidad al hacer scroll */
+const deep=[...$$("[data-d]")];let tick=false;
+function onScroll(){$("#hd").classList.toggle("s",scrollY>30);
+ if(still||tick)return;tick=true;requestAnimationFrame(()=>{tick=false;const vh=innerHeight;
+  deep.forEach(el=>{const r=el.getBoundingClientRect();if(r.bottom<-200||r.top>vh+200)return;
+   el.style.translate=`0 ${(((r.top+r.height/2)-vh/2)*parseFloat(el.dataset.d)).toFixed(1)}px`})})}
+addEventListener("scroll",onScroll,{passive:true});
+setTimeout(()=>{$$(".js .pl").forEach(p=>{p.style.animation="none";p.style.opacity=1});onScroll()},1700);
+/* luz que sigue al cursor en el inicio */
+const hero=$("#inicio");
+if(!still&&matchMedia("(pointer:fine)").matches)hero.addEventListener("pointermove",e=>{const r=hero.getBoundingClientRect();hero.style.setProperty("--mx",(e.clientX-r.left)+"px");hero.style.setProperty("--my",(e.clientY-r.top)+"px")});
+/* la bombilla enciende el fondo */
+$("#luz").onclick=e=>{const on=document.body.classList.toggle("lit");e.currentTarget.setAttribute("aria-pressed",on)};
+
+/* carrusel de tarjetas superpuestas */
+const cards=[...$$("#deck .cd")],dots=$("#dots");let cur=0;
+cards.forEach(()=>dots.append(document.createElement("i")));
+function show(i){const n=cards.length;cur=(i+n)%n;
+ cards.forEach((c,k)=>{let p=(k-cur+n)%n;if(p===n-1&&n>3)p=-1;c.dataset.p=p;c.setAttribute("aria-hidden",p!==0)});
+ [...dots.children].forEach((d,k)=>d.classList.toggle("on",k===cur))}
+show(0);
+$("#nx").onclick=()=>show(cur+1);$("#pv").onclick=()=>show(cur-1);
+cards.forEach((c,k)=>c.addEventListener("click",()=>{if(k!==cur)show(k)}));
+const deck=$("#deck");let sx=null;
+deck.addEventListener("pointerdown",e=>{sx=e.clientX});
+deck.addEventListener("pointerup",e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1))});
+deck.tabIndex=0;deck.addEventListener("keydown",e=>{if(e.key==="ArrowRight")show(cur+1);if(e.key==="ArrowLeft")show(cur-1)});
+
+/* casos reales cargados desde el panel */
+fetch("/api/cases").then(r=>r.ok?r.json():[]).then(l=>{if(!Array.isArray(l)||!l.length)return;$("#trabajos").hidden=false;l.forEach(c=>{const a=document.createElement("a");a.className="wc";a.href="/casos/"+encodeURIComponent(c.slug);
  const im=document.createElement("div");im.className="wi";if(c.images&&c.images[0]){const g=document.createElement("img");g.src=c.images[0];g.alt=c.title;g.loading="lazy";im.append(g)}
  const t=document.createElement("div");t.className="tg";String(c.service||"").split(/[,/]/).map(x=>x.trim()).filter(Boolean).slice(0,3).forEach(x=>{const e=document.createElement("span");e.textContent=x;t.append(e)});
- const h=document.createElement("h3");h.textContent=c.title;const v=document.createElement("span");v.className="vp";v.textContent="Ver proyecto →";a.append(im,t,h,v);$("#wk").append(a)})}).catch(()=>{});
-try{const sv=new URLSearchParams(location.search).get("servicio");if(sv&&[...$("#s").options].some(o=>o.value===sv||o.text===sv))$("#s").value=sv}catch(e){}
-document.querySelectorAll("[data-s]").forEach(a=>a.addEventListener("click",()=>{$("#s").value=a.dataset.s}));
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll(".rv").forEach(el=>io.observe(el));
-$("#lf").addEventListener("submit",e=>{e.preventDefault();const f=e.target,b=$("#sb");b.disabled=true;
+ const h=document.createElement("h3");h.textContent=c.title;const v=document.createElement("span");v.className="vp";v.textContent="Ver proyecto";a.append(im,t,h,v);$("#wk").append(a)})}).catch(()=>{});
+
+/* formulario */
+const sel=$("#s"),pick=v=>{const o=[...sel.options].find(o=>o.value===v||o.text===v);if(o)sel.value=o.value};
+try{const sv=new URLSearchParams(location.search).get("servicio");if(sv)pick(sv)}catch(e){}
+$$("[data-s]").forEach(a=>a.addEventListener("click",()=>pick(a.dataset.s)));
+$("#lf").addEventListener("submit",e=>{e.preventDefault();const f=e.target,b=$("#sb"),er=$("#er");er.classList.remove("show");$("#ok").classList.remove("show");
+ if(!f.checkValidity()){er.textContent="Revisá el formulario: necesitamos tu nombre, un email válido y un mensaje de al menos 15 caracteres.";er.classList.add("show");const bad=f.querySelector(":invalid");bad&&bad.focus();return}
+ b.disabled=true;b.textContent="Enviando";
  fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.fromEntries(new FormData(f)))})
  .then(r=>{if(!r.ok)throw 0;$("#ok").classList.add("show");f.reset()})
- .catch(()=>alert("No pudimos enviar tu consulta. Escribinos por WhatsApp y te respondemos enseguida."))
- .finally(()=>{b.disabled=false})});
+ .catch(()=>{er.innerHTML='No pudimos enviar tu consulta. <a target="_blank" rel="noopener">Escribinos por WhatsApp</a> y te respondemos enseguida.';er.querySelector("a").href=WA;er.classList.add("show")})
+ .finally(()=>{b.disabled=false;b.textContent="Enviar consulta"})});
 </script>
 </body>
 </html>
