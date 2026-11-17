@@ -17,11 +17,11 @@ function Login({ notice }) {
   };
   return (
     <div className="adm" style={{ maxWidth: 420, paddingTop: '6rem' }}>
-      <h1 style={{ marginBottom: '1.5rem' }}><img src="/logo-horizontal.svg" alt="EMUNÁ" width="164" height="48" style={{ display: 'block' }} /></h1>
+      <h1 style={{ marginBottom: '1.5rem' }}><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="164" height="48" style={{ display: 'block' }} /></h1>
       <form className="panel f" onSubmit={go} style={{ gridTemplateColumns: '1fr' }}>
         <F label="Email"><input name="email" type="email" required autoComplete="email" /></F>
         <F label="Contraseña"><input name="password" type="password" required autoComplete="current-password" /></F>
-        {(err || notice) && <small style={{ color: '#a33' }}>{err || notice}</small>}
+        {(err || notice) && <small style={{ color: '#F0A08C' }}>{err || notice}</small>}
         <button className="btn">Entrar al panel</button>
       </form>
     </div>
@@ -104,7 +104,7 @@ export default function Admin() {
   return (
     <div className="adm">
       <header>
-        <h1 style={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}><img src="/logo-horizontal.svg" alt="EMUNÁ" width="137" height="40" style={{ display: 'block' }} /> <small style={{ fontSize: '.9rem', letterSpacing: 0 }}>Panel</small></h1>
+        <h1 style={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="137" height="40" style={{ display: 'block' }} /> <small style={{ fontSize: '.9rem', letterSpacing: 0 }}>Panel</small></h1>
         <div><a className="btn ghost sm" href="/">Ver sitio</a> <button className="btn ghost sm" onClick={() => sb.auth.signOut()}>Salir</button></div>
       </header>
       <div className="tabs">{[['clientes', 'Clientes'], ['propuestas', 'Propuestas (CRM)'], ['casos', 'Casos de éxito'], ['usuarios', 'Usuarios y permisos']].map(([k, n]) => <button key={k} className={'btn sm' + (tab === k ? ' on' : '')} onClick={() => setTab(k)}>{n}</button>)}</div>
