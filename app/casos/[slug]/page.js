@@ -13,8 +13,9 @@ export default async function Caso({ params }) {
   const video = embed(c.video_url);
   return (
     <main className="pub" style={{ maxWidth: 820 }}>
-      <a href="/casos" className="back">← Todos los casos</a>
-      <span className="eyebrow">{c.service}{c.client ? ` · ${c.client}` : ''}</span>
+      <div className="pub-fog" aria-hidden="true" />
+      <header className="pub-hd"><a href="/" aria-label="EMUNÁ, inicio"><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="143" height="42" /></a><a href="/casos" className="back">Todos los casos</a></header>
+      <span className="eyebrow">{[c.service, c.client].filter(Boolean).join(', ')}</span>
       <h1>{c.title}</h1>
       <p style={{ fontSize: '1.15rem', color: 'var(--muted)' }}>{c.summary}</p>
       <div className="case-media">

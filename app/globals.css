@@ -73,3 +73,69 @@ textarea{min-height:110px;resize:vertical}
 .pr-tiphead{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.3rem}
 .pr-tip p{margin:0 0 .4rem}
 .pr-tip blockquote{margin:0;padding:.6rem .8rem;background:var(--paper);border-left:3px solid var(--gold);border-radius:8px;font-style:italic;user-select:all}
+/* casos públicos: tema oscuro igual que la portada. Todo va bajo .pub para no tocar el panel ni las propuestas */
+body:has(.pub){background:#060606}
+.pub{--line:rgba(241,235,221,.13);--cream:#F1EBDD;--fog:#A6A99E;--olive-l:#B7C78C;--muted:#A6A99E;
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--cream);position:relative;isolation:isolate;padding-top:1.2rem;-webkit-font-smoothing:antialiased}
+.pub-fog{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(62vw 58vh at 92% -8%,rgba(176,178,168,.46),transparent 66%),
+  radial-gradient(52vw 66vh at -10% 42%,rgba(110,125,78,.40),transparent 66%),
+  radial-gradient(70vw 54vh at 66% 112%,rgba(150,151,144,.40),transparent 64%)}
+.pub-hd{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:clamp(3rem,7vw,5rem)}
+.pub-hd img{display:block;height:42px;width:auto}
+.pub h1,.pub h2,.pub h3{font-family:"Fraunces",Georgia,serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:800;letter-spacing:-.03em;line-height:.98}
+.pub h1{font-size:clamp(2.6rem,6.2vw,5.4rem);margin:0 0 3rem}
+.pub h1 i{display:block;font-weight:300;color:var(--olive-l);margin-top:.06em}
+.pub p{color:var(--fog)}
+.pub .back{margin:0;color:var(--fog);border:1px solid var(--line);border-radius:999px;padding:.5rem 1.1rem;font-size:.92rem;transition:color .2s,border-color .2s}
+.pub .back:hover{color:var(--cream);border-color:rgba(241,235,221,.4)}
+.pub .eyebrow{display:block;color:var(--olive-l);font-weight:600;font-size:1rem;letter-spacing:0;text-transform:none;margin-bottom:.8rem}
+.pub .grid{gap:1.2rem}
+.pub .card{background:#141513;border:1px solid var(--line);border-radius:26px;transition:border-color .3s}
+.pub .card:hover{transform:none;border-color:rgba(241,235,221,.4)}
+.pub .card small{color:var(--olive-l)}.pub .card h3{font-size:1.6rem}.pub .card p{color:var(--fog)}
+.pub .card .vp{color:var(--olive-l);text-decoration:none;font-weight:600}
+.pub-empty{font-size:1.15rem;max-width:36rem}.pub-empty a{color:var(--cream);text-decoration:underline;text-underline-offset:4px}
+.pub .case-media img,.pub .case-media iframe{border-radius:24px;border:1px solid var(--line)}
+.pub .btn{background:var(--olive-l);color:#11140B;font-weight:700}.pub .btn:hover{background:var(--cream)}
+/* panel de administración: mismo tema oscuro que el sitio. Todo va bajo .adm; la propuesta (.pd) conserva su diseño propio */
+body:has(.adm){background:#060606}
+.adm{--ink:#F1EBDD;--paper:#0E0F0D;--sage:#1D1F1B;--muted:#A6A99E;--beige:#28331F;--gold:#D9A54A;--line:rgba(241,235,221,.13);--olive-l:#B7C78C;
+  --display:"Fraunces",Georgia,serif;
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.adm::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(62vw 58vh at 92% -8%,rgba(176,178,168,.34),transparent 66%),
+  radial-gradient(52vw 66vh at -10% 42%,rgba(110,125,78,.30),transparent 66%),
+  radial-gradient(70vw 54vh at 66% 112%,rgba(150,151,144,.28),transparent 64%)}
+.adm .pd{--display:Georgia,"Iowan Old Style",serif;--muted:#5B6447}
+.adm>header h1,.adm .panel>h3,.adm form.panel>h3{font-family:var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:800;letter-spacing:-.02em}
+.adm>header h1 small{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:400;color:var(--muted)}
+.adm .panel{background:rgba(20,21,19,.82);border:1px solid var(--line);border-radius:22px;box-shadow:0 40px 80px -50px #000}
+.adm .btn{background:var(--olive-l);color:#11140B;font-weight:700;transition:background .2s,border-color .2s}
+.adm .btn:hover{background:#F1EBDD}
+.adm .btn.ghost,.adm .tabs .btn:not(.on){background:rgba(241,235,221,.04);color:var(--ink);border:1px solid var(--line)}
+.adm .btn.ghost:hover,.adm .tabs .btn:not(.on):hover{background:rgba(241,235,221,.1);border-color:rgba(241,235,221,.4)}
+.adm .btn:disabled{opacity:.5}
+.adm input,.adm select,.adm textarea{background:rgba(6,6,6,.55);border:1px solid var(--line);color:var(--ink);border-radius:12px}
+.adm input:focus,.adm select:focus,.adm textarea:focus{outline:none;border-color:var(--olive-l)}
+.adm select option{color:#111;background:#fff}
+.adm input[type=checkbox]{accent-color:var(--olive-l)}
+.adm :focus-visible{outline:2px solid #FFDD33;outline-offset:3px}
+.adm .row{border-top:1px solid var(--line)}
+.adm .toast{background:var(--olive-l);color:#11140B;font-weight:600}
+.adm a:not(.btn){text-decoration-color:var(--line)}
+.adm .pr-pills button{background:rgba(241,235,221,.04);border:1px solid var(--line);color:var(--ink)}
+.adm .pr-pills button.on{background:#F1EBDD;color:#11140B;border-color:#F1EBDD}
+.adm .pr-pills i{border-color:rgba(241,235,221,.35)}
+.adm .pr-st{border-color:var(--line)}
+.adm .pr-msg.user{background:var(--olive-l);color:#11140B}
+.adm .pr-msg.assistant{background:#1D1F1B;color:var(--ink)}
+.adm .pr-empty button{background:rgba(6,6,6,.4);border:1px dashed rgba(183,199,140,.5);color:var(--ink)}
+.adm .pr-empty button:hover{background:#1D1F1B}
+.adm .pr-preview .pd{box-shadow:0 50px 90px -40px #000}
+.adm .pr-ph{border:1px dashed rgba(241,235,221,.3)}
+.adm .pr-htmlprev{border:1px solid var(--line);box-shadow:0 50px 90px -40px #000}
+.adm .pr-warn,.adm .pr-tip{background:#28331F;border:1px solid rgba(183,199,140,.3);color:var(--ink)}
+.adm .pr-tip blockquote{background:rgba(6,6,6,.5);border-left-color:var(--gold)}
+.adm .pr-kind{background:#28331F;color:var(--olive-l)}
+.adm button,.adm .btn{font-family:inherit}
