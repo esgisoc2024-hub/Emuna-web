@@ -94,3 +94,6 @@ body:has(.sp){background:#060606}
 @media(max-width:860px){.s-hero .w,.s-ex{grid-template-columns:1fr}.s-inc,.s-more{grid-template-columns:1fr 1fr}.s-badge{min-height:340px;transform:none}}
 @media(max-width:560px){.s-inc,.s-more{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.sp *{animation:none!important;transition:none!important}}
+
+/* el encabezado del sitio es fijo: dejamos lugar arriba */
+.sp .s-hero{padding-top:clamp(8.5rem,14vw,11rem)}
