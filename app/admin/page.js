@@ -8,6 +8,18 @@ const STATUS = ['nuevo', 'contactado', 'propuesta enviada', 'ganado', 'perdido']
 const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const F = ({ label, full, children }) => <label className={'l' + (full ? ' full' : '')}>{label}{children}</label>;
 
+const ICONS = {
+  clientes: 'M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19v-1.5a3.5 3.5 0 0 0-2.5-3.3M15.5 4.2a3.5 3.5 0 0 1 0 6.6',
+  propuestas: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4',
+  embudo: 'M3 4h18l-7 8.5V19l-4 2v-8.5z',
+  casos: 'M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z',
+  usuarios: 'M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6zM9 12l2 2 4-4',
+  sitio: 'M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5',
+  salir: 'M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 16l-4-4 4-4M6 12h10',
+  menu: 'M4 6h16M4 12h16M4 18h16',
+};
+const Icon = ({ name }) => <svg className="adm-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={ICONS[name]} /></svg>;
+
 function Login({ notice }) {
   const [err, setErr] = useState('');
   const go = async e => {
@@ -16,12 +28,12 @@ function Login({ notice }) {
     if (error) setErr('Email o contraseña incorrectos.');
   };
   return (
-    <div className="adm" style={{ maxWidth: 420, paddingTop: '6rem' }}>
-      <h1 style={{ marginBottom: '1.5rem' }}><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="164" height="48" style={{ display: 'block' }} /></h1>
+    <div className="adm adm-login">
+      <h1 style={{ marginBottom: '1.5rem' }}><img src="/logo-horizontal.svg" alt="EMUNÁ" width="164" height="48" style={{ display: 'block' }} /></h1>
       <form className="panel f" onSubmit={go} style={{ gridTemplateColumns: '1fr' }}>
         <F label="Email"><input name="email" type="email" required autoComplete="email" /></F>
         <F label="Contraseña"><input name="password" type="password" required autoComplete="current-password" /></F>
-        {(err || notice) && <small style={{ color: '#F0A08C' }}>{err || notice}</small>}
+        {(err || notice) && <small style={{ color: '#B3402A' }}>{err || notice}</small>}
         <button className="btn">Entrar al panel</button>
       </form>
     </div>
@@ -29,7 +41,7 @@ function Login({ notice }) {
 }
 
 export default function Admin() {
-  const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('clientes');
+  const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('clientes'), [menu, setMenu] = useState(false);
   const [clients, setClients] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
   const [role, setRole] = useState(null), [notice, setNotice] = useState(''), [users, setUsers] = useState([]);
   useEffect(() => {
@@ -101,13 +113,48 @@ export default function Admin() {
   const togglePub = async c => { await sb.from('cases').update({ published: !c.published }).eq('id', c.id); load(); };
   const delCase = async id => { if (confirm('¿Eliminar este caso?')) { await sb.from('cases').delete().eq('id', id); load(); } };
 
+  const NAV = [
+    ['clientes', 'Clientes', clients.length],
+    ['propuestas', 'Propuestas', null],
+    ['embudo', 'Embudo', null],
+    ['casos', 'Casos de éxito', cases.length],
+    ['usuarios', 'Usuarios y permisos', null],
+  ];
+  const TITLES = {
+    clientes: ['Clientes', 'Consultas del sitio y clientes que cargás a mano.'],
+    propuestas: ['Propuestas', 'Armalas con Claude o pegá el HTML de una que ya tengas.'],
+    embudo: ['Embudo de propuestas', 'Arrastrá cada propuesta a la etapa en la que está.'],
+    casos: ['Casos de éxito', 'Lo que se publica en /casos.'],
+    usuarios: ['Usuarios y permisos', 'Quién puede entrar al panel.'],
+  };
+  const go = k => { setTab(k); setMenu(false); window.scrollTo(0, 0); };
+  const email = session.user.email || '';
+
   return (
-    <div className="adm">
-      <header>
-        <h1 style={{ display: 'flex', alignItems: 'center', gap: '.6rem' }}><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="137" height="40" style={{ display: 'block' }} /> <small style={{ fontSize: '.9rem', letterSpacing: 0 }}>Panel</small></h1>
-        <div><a className="btn ghost sm" href="/">Ver sitio</a> <button className="btn ghost sm" onClick={() => sb.auth.signOut()}>Salir</button></div>
-      </header>
-      <div className="tabs">{[['clientes', 'Clientes'], ['propuestas', 'Propuestas (CRM)'], ['casos', 'Casos de éxito'], ['usuarios', 'Usuarios y permisos']].map(([k, n]) => <button key={k} className={'btn sm' + (tab === k ? ' on' : '')} onClick={() => setTab(k)}>{n}</button>)}</div>
+    <div className={'adm adm-shell' + (menu ? ' menu-open' : '')}>
+      <aside className="adm-side">
+        <div className="adm-brand"><img src="/logo-horizontal.svg" alt="EMUNÁ" width="123" height="36" /><span>Panel</span></div>
+        <nav className="adm-nav" aria-label="Secciones del panel">
+          <p className="adm-navlabel">Gestión</p>
+          {NAV.map(([k, n, c]) => <button key={k} className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined} onClick={() => go(k)}>
+            <Icon name={k} /><span>{n}</span>{c != null && <b>{c}</b>}
+          </button>)}
+        </nav>
+        <div className="adm-sidefoot">
+          <a href="/" target="_blank" rel="noopener noreferrer"><Icon name="sitio" /><span>Ver sitio</span></a>
+          <div className="adm-user">
+            <span className="adm-avatar" aria-hidden="true">{email.slice(0, 1).toUpperCase()}</span>
+            <span className="adm-email" title={email}>{email}<small>{ROLES[role]?.label}</small></span>
+            <button onClick={() => sb.auth.signOut()} title="Salir" aria-label="Salir"><Icon name="salir" /></button>
+          </div>
+        </div>
+      </aside>
+      <div className="adm-scrim" onClick={() => setMenu(false)} />
+      <main className="adm-main">
+        <div className="adm-top">
+          <button className="adm-burger" onClick={() => setMenu(true)} aria-label="Abrir menú"><Icon name="menu" /></button>
+          <div><h1>{TITLES[tab][0]}</h1><p>{TITLES[tab][1]}</p></div>
+        </div>
 
       {tab === 'clientes' && <>
         <form className="panel f" onSubmit={addClient}>
@@ -126,7 +173,7 @@ export default function Admin() {
         </div>
       </>}
 
-      {tab === 'propuestas' && <Proposals sb={sb} api={api} clients={clients} flash={flash} onClientsChange={load} />}
+      {(tab === 'propuestas' || tab === 'embudo') && <Proposals key={tab} view={tab === 'embudo' ? 'embudo' : 'lista'} sb={sb} api={api} clients={clients} flash={flash} onClientsChange={load} />}
 
       {tab === 'casos' && <>
         <form className="panel f" onSubmit={addCase}>
@@ -166,6 +213,7 @@ export default function Admin() {
           {Object.values(ROLES).map(r => <p key={r.label} style={{ marginBottom: '.4rem' }}><strong>{r.label}:</strong> {r.desc}</p>)}
         </div>
       </>}
+      </main>
       {msg && <div className="toast" role="status">{msg}</div>}
     </div>
   );
