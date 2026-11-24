@@ -2,13 +2,17 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { ROLES, canLogin } from '@/lib/roles';
+import { money, totals, statusLabel } from '@/lib/proposals';
 import Proposals from './Proposals';
 const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-const STATUS = ['nuevo', 'contactado', 'propuesta enviada', 'ganado', 'perdido'];
+const STATUS = ['nuevo', 'contactado', 'propuesta enviada', 'perdido'];
+const WON = ['ganado', 'propuesta aceptada'];
+const fmtDay = d => d ? new Date(d).toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
 const slugify = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const F = ({ label, full, children }) => <label className={'l' + (full ? ' full' : '')}>{label}{children}</label>;
 
 const ICONS = {
+  prospectos: 'M15 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 3 17.5V19M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M19 8v6M16 11h6',
   clientes: 'M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19v-1.5a3.5 3.5 0 0 0-2.5-3.3M15.5 4.2a3.5 3.5 0 0 1 0 6.6',
   propuestas: 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4',
   embudo: 'M3 4h18l-7 8.5V19l-4 2v-8.5z',
@@ -41,8 +45,8 @@ function Login({ notice }) {
 }
 
 export default function Admin() {
-  const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('clientes'), [menu, setMenu] = useState(false);
-  const [clients, setClients] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
+  const [session, setSession] = useState(null), [ready, setReady] = useState(false), [tab, setTab] = useState('prospectos'), [menu, setMenu] = useState(false);
+  const [clients, setClients] = useState([]), [props, setProps] = useState([]), [cases, setCases] = useState([]), [msg, setMsg] = useState('');
   const [role, setRole] = useState(null), [notice, setNotice] = useState(''), [users, setUsers] = useState([]);
   useEffect(() => {
     sb.auth.getSession().then(({ data }) => { setSession(data.session); if (!data.session) setReady(true); });
@@ -58,10 +62,11 @@ export default function Admin() {
     });
   }, [session?.user?.id]);
   const load = async () => {
-    const [a, c] = await Promise.all([
+    const [a, c, p] = await Promise.all([
       sb.from('clients').select('*').order('created_at', { ascending: false }),
-      sb.from('cases').select('*').order('created_at', { ascending: false })]);
-    setClients(a.data || []); setCases(c.data || []);
+      sb.from('cases').select('*').order('created_at', { ascending: false }),
+      sb.from('proposals').select('id,client_id,client_name,title,status,content,accepted_at,updated_at,token').order('updated_at', { ascending: false })]);
+    setClients(a.data || []); setCases(c.data || []); setProps(p.data || []);
   };
   const api = (path, opts = {}) => fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}`, ...(opts.headers || {}) } });
   const loadUsers = async () => { const r = await api('/api/users'); if (r.ok) setUsers(await r.json()); };
@@ -113,15 +118,28 @@ export default function Admin() {
   const togglePub = async c => { await sb.from('cases').update({ published: !c.published }).eq('id', c.id); load(); };
   const delCase = async id => { if (confirm('¿Eliminar este caso?')) { await sb.from('cases').delete().eq('id', id); load(); } };
 
+  // Cliente = tiene al menos una propuesta aceptada, o lo marcaste como ganado. El resto son prospectos.
+  const byClient = {};
+  props.forEach(p => { if (p.client_id) (byClient[p.client_id] ||= []).push(p); });
+  const accepted = id => (byClient[id] || []).filter(p => p.status === 'aceptada');
+  const isWon = c => WON.includes(c.status) || accepted(c.id).length > 0;
+  const won = clients.filter(isWon), prospects = clients.filter(c => !isWon(c));
+  const orphanWon = props.filter(p => p.status === 'aceptada' && !p.client_id);
+  const amount = p => { const inv = p.content?.inversion; if (!inv?.items?.length) return ''; const t = totals(inv);
+    return [t.hasUnico && money(t.unico || null, inv.moneda), t.hasMensual && `${money(t.mensual || null, inv.moneda)}/mes`].filter(Boolean).join(' + '); };
+  const since = c => accepted(c.id).map(p => p.accepted_at).filter(Boolean).sort()[0];
+
   const NAV = [
-    ['clientes', 'Clientes', clients.length],
+    ['prospectos', 'Prospectos', prospects.length],
+    ['clientes', 'Clientes', won.length + orphanWon.length],
     ['propuestas', 'Propuestas', null],
     ['embudo', 'Embudo', null],
     ['casos', 'Casos de éxito', cases.length],
     ['usuarios', 'Usuarios y permisos', null],
   ];
   const TITLES = {
-    clientes: ['Clientes', 'Consultas del sitio y clientes que cargás a mano.'],
+    prospectos: ['Prospectos', 'Consultas del sitio y contactos que todavía no aceptaron una propuesta.'],
+    clientes: ['Clientes', 'Quienes aceptaron una propuesta o marcaste como ganados.'],
     propuestas: ['Propuestas', 'Armalas con Claude o pegá el HTML de una que ya tengas.'],
     embudo: ['Embudo de propuestas', 'Arrastrá cada propuesta a la etapa en la que está.'],
     casos: ['Casos de éxito', 'Lo que se publica en /casos.'],
@@ -156,22 +174,43 @@ export default function Admin() {
           <div><h1>{TITLES[tab][0]}</h1><p>{TITLES[tab][1]}</p></div>
         </div>
 
-      {tab === 'clientes' && <>
+      {tab === 'prospectos' && <>
         <form className="panel f" onSubmit={addClient}>
-          <h3 className="full">Nuevo cliente</h3>
+          <h3 className="full">Nuevo prospecto</h3>
           <F label="Nombre"><input name="name" required /></F><F label="Email"><input name="email" type="email" /></F>
           <F label="Teléfono"><input name="phone" /></F><F label="Empresa"><input name="company" /></F>
           <F label="Notas" full><textarea name="notes" style={{ minHeight: 60 }} /></F>
-          <button className="btn full">Guardar cliente</button>
+          <button className="btn full">Guardar prospecto</button>
         </form>
-        <div className="panel"><h3>Clientes y consultas ({clients.length})</h3>
-          {clients.map(c => <div className="row" key={c.id}>
-            <div><strong>{c.name}</strong> <small>{c.company}</small><br /><small>{c.email} {c.phone} · {c.service || 'sin área'} · {c.source}</small>{c.notes && <><br /><small>{c.notes.slice(0, 140)}</small></>}</div>
-            <div><select value={c.status} onChange={e => setStatus(c.id, e.target.value)}>{STATUS.map(s => <option key={s}>{s}</option>)}</select> <button className="btn ghost sm" onClick={() => delClient(c.id)}>Eliminar</button></div>
-          </div>)}
-          {!clients.length && <p>Todavía no hay clientes. Las consultas del formulario aparecen acá.</p>}
+        <div className="panel"><h3>Prospectos ({prospects.length})</h3>
+          {prospects.map(c => { const last = (byClient[c.id] || [])[0];
+            return <div className="row" key={c.id}>
+            <div><strong>{c.name}</strong> <small>{c.company}</small><br /><small>{[c.email, c.phone, c.service || 'sin área', c.source].filter(Boolean).join(' · ')}</small>
+              {last && <small className="cp-prop">Última propuesta: {last.title || 'Sin título'} · {statusLabel(last.status)}</small>}
+              {c.notes && <><br /><small>{c.notes.slice(0, 140)}</small></>}</div>
+            <div className="cp-acts"><select value={STATUS.includes(c.status) ? c.status : ''} onChange={e => setStatus(c.id, e.target.value)}>{!STATUS.includes(c.status) && <option value="">{c.status || 'sin estado'}</option>}{STATUS.map(s => <option key={s}>{s}</option>)}</select>
+              <button className="btn sm" onClick={() => { setStatus(c.id, 'ganado'); flash(`${c.name} pasó a Clientes.`); }}>Pasar a clientes</button>
+              <button className="btn ghost sm" onClick={() => delClient(c.id)}>Eliminar</button></div>
+          </div>; })}
+          {!prospects.length && <p>No hay prospectos. Las consultas del formulario del sitio aparecen acá.</p>}
         </div>
       </>}
+
+      {tab === 'clientes' && <div className="panel"><h3>Clientes ({won.length + orphanWon.length})</h3>
+          {won.map(c => { const acc = accepted(c.id), d = since(c);
+            return <div className="row" key={c.id}>
+            <div><strong>{c.name}</strong> <small>{c.company}</small><br /><small>{[c.email, c.phone].filter(Boolean).join(' · ') || 'Sin datos de contacto'}{d ? ` · Cliente desde el ${fmtDay(d)}` : ''}</small>
+              {acc.map(p => <div key={p.id} className="cp-prop"><a href={`/propuesta/${p.token}`} target="_blank" rel="noopener noreferrer">{p.title || 'Propuesta'}</a>{amount(p) && ` · ${amount(p)}`}{p.accepted_at && ` · aceptada el ${fmtDay(p.accepted_at)}`}</div>)}
+              {!acc.length && <div className="cp-prop">Marcado como ganado a mano, sin propuesta aceptada en el panel.</div>}</div>
+            <div className="cp-acts">{!acc.length && <button className="btn ghost sm" onClick={() => { setStatus(c.id, 'contactado'); flash(`${c.name} volvió a Prospectos.`); }}>Volver a prospectos</button>}
+              <button className="btn ghost sm" onClick={() => delClient(c.id)}>Eliminar</button></div>
+          </div>; })}
+          {orphanWon.map(p => <div className="row" key={p.id}>
+            <div><strong>{p.client_name || p.content?.cliente?.nombre || 'Cliente sin nombre'}</strong> <small>sin ficha en el panel</small>
+              <div className="cp-prop"><a href={`/propuesta/${p.token}`} target="_blank" rel="noopener noreferrer">{p.title || 'Propuesta'}</a>{amount(p) && ` · ${amount(p)}`}{p.accepted_at && ` · aceptada el ${fmtDay(p.accepted_at)}`}</div></div>
+          </div>)}
+          {!won.length && !orphanWon.length && <p>Todavía no hay clientes. Cuando alguien acepte una propuesta, aparece acá automáticamente.</p>}
+        </div>}
 
       {(tab === 'propuestas' || tab === 'embudo') && <Proposals key={tab} view={tab === 'embudo' ? 'embudo' : 'lista'} sb={sb} api={api} clients={clients} flash={flash} onClientsChange={load} />}
 

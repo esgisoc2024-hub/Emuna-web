@@ -80,9 +80,13 @@ export default function Proposals({ view = 'lista', sb, api, clients, flash, onC
   };
   const dirty = isHtml && current && (draft.html !== (current.html || '') || draft.title !== (current.title || '') || (draft.clientId || null) !== (current.client_id || null) || (!draft.clientId && draft.clientName !== (current.client_name || '')));
   const update = async (id, fields) => {
-    const { error } = await sb.from('proposals').update({ ...fields, updated_at: new Date().toISOString() }).eq('id', id);
+    const prev = list.find(p => p.id === id), now = new Date().toISOString();
+    // Si la marcás como aceptada desde el panel, queda registrada la fecha (así el cliente aparece en Clientes con su fecha)
+    if (fields.status === 'aceptada' && !prev?.accepted_at) fields = { ...fields, accepted_at: now };
+    const { error } = await sb.from('proposals').update({ ...fields, updated_at: now }).eq('id', id);
     if (error) return flash('No se pudo guardar el cambio.');
     const fresh = await load(); if (current?.id === id) setOpen(fresh.find(p => p.id === id) || null);
+    if (fields.status) onClientsChange?.();
   };
   const remove = async p => {
     if (!confirm(`¿Eliminar la propuesta "${p.title || 'sin título'}"?`)) return;

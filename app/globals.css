@@ -197,3 +197,8 @@ body:has(.adm){background:#fff}
 .fn-card select{display:block;width:calc(100% - 1.5rem);margin:0 .75rem .65rem;font-size:.78rem;padding:.3rem .4rem}
 .fn-empty{font-size:.8rem;color:#9A9F90;text-align:center;border:1px dashed #D3D6CC;border-radius:10px;padding:1.2rem .5rem}
 @media(max-width:700px){.fn-kpis{grid-template-columns:1fr 1fr}.fn-step{grid-template-columns:96px 1fr 34px;gap:.5rem}.fn-num small{display:none}.fn-name{font-size:.8rem;line-height:1.2}.fn-board{grid-template-columns:repeat(5,80vw)}}
+
+/* prospectos y clientes */
+.adm .cp-prop{display:block;margin-top:.35rem;font-size:.85rem;color:var(--olive)}
+.adm .cp-prop a{text-decoration:underline;text-underline-offset:3px}
+.adm .cp-acts{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
