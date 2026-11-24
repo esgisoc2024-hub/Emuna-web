@@ -60,7 +60,8 @@ if(heroEl){
      p3.classList.toggle("show",false);p3.classList.toggle("is-sold",false);await wait(400);chT.textContent="Escribiendo…";p3.classList.add("is-typing");await wait(1500);
      n=(n+1)%MSGS.length;chM.textContent=MSGS[n];chT.textContent="Consulta nueva, recién";p3.classList.toggle("is-typing",false);p3.classList.add("show");await wait(1500);
      p3.classList.add("is-sold");p1.classList.add("pulse");await wait(1500);p1.classList.toggle("pulse",false);
-     p2.classList.toggle("aim",false);mcur.style.left="22%";mcur.style.top="26%";await wait(2600)}})();
+     p2.classList.toggle("aim",false);mcur.style.left="22%";mcur.style.top="26%";await wait(2600)}
+})();
   }
  }
 }
@@ -98,8 +99,12 @@ if(lf){
   if(!f.checkValidity()){er.textContent="Revisá el formulario: necesitamos tu nombre, un email válido y un mensaje de al menos 15 caracteres.";er.classList.add("show");const bad=f.querySelector(":invalid");bad&&bad.focus();return}
   b.disabled=true;b.textContent="Enviando";
   fetch("/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.fromEntries(new FormData(f)))})
-  .then(r=>{if(!r.ok)throw 0;$("#ok").classList.add("show");f.reset()})
+  .then(r=>{if(!r.ok)throw 0;try{sessionStorage.setItem("emuna_nombre",String(f.elements.name.value||"").trim().split(/\s+/)[0].slice(0,40))}catch(e){}location.href="/gracias"})
   .catch(()=>{er.innerHTML='No pudimos enviar tu consulta. <a target="_blank" rel="noopener">Escribinos por WhatsApp</a> y te respondemos enseguida.';er.querySelector("a").href=WA;er.classList.add("show")})
   .finally(()=>{b.disabled=false;b.textContent="Enviar consulta"})});
 }
+
+/* página de gracias: saluda por el nombre que dejó en el formulario */
+const gnm=$("#gnm");
+if(gnm)try{const n=sessionStorage.getItem("emuna_nombre");if(n)gnm.textContent=", "+n}catch(e){}
 })();

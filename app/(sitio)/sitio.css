@@ -307,3 +307,7 @@ mark.tbd{background:var(--bulb);color:#11140B;border-radius:6px;padding:0 .35rem
 @media(max-width:900px){.cmp,.vals{grid-template-columns:1fr}}
 .ct h1{font-size:clamp(2.2rem,4.6vw,3.8rem)}
 .pg .pr-top{align-items:flex-end}
+.gr .idea{margin-top:2.8rem}
+.gr-steps{counter-reset:gs}
+.gr-steps li{counter-increment:gs}
+.gr-steps h3::before{content:counter(gs);display:block;font-style:italic;font-weight:300;color:var(--olive-l);font-size:1.4rem;margin-bottom:.4rem}
