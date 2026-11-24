@@ -26,7 +26,7 @@ function StatusSelect({ value, onChange }) {
   </select>;
 }
 
-export default function Proposals({ sb, api, clients, flash, onClientsChange }) {
+export default function Proposals({ view = 'lista', sb, api, clients, flash, onClientsChange }) {
   const [list, setList] = useState([]), [filter, setFilter] = useState('todas'), [open, setOpen] = useState(null);
   const [text, setText] = useState(''), [busy, setBusy] = useState(false), [clientId, setClientId] = useState('');
   const [sending, setSending] = useState(false), [sendTo, setSendTo] = useState(''), [sendMsg, setSendMsg] = useState('');
@@ -120,7 +120,7 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
     return (
       <div className="pr-work">
         <div className="pr-bar">
-          <button className="btn ghost sm" onClick={() => { if (dirty && !confirm('Tenés cambios sin guardar. ¿Salir igual?')) return; setOpen(null); setSending(false); setClientId(''); }}>← Todas las propuestas</button>
+          <button className="btn ghost sm" onClick={() => { if (dirty && !confirm('Tenés cambios sin guardar. ¿Salir igual?')) return; setOpen(null); setSending(false); setClientId(''); }}>{view === 'embudo' ? '← Volver al embudo' : '← Todas las propuestas'}</button>
           {current && <div className="pr-actions">
             <StatusSelect value={current.status} onChange={v => update(current.id, { status: v })} />
             <a className="btn ghost sm" href={`/propuesta/${current.token}`} target="_blank" rel="noopener noreferrer">Ver como cliente</a>
@@ -197,6 +197,9 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
     );
   }
 
+  if (view === 'embudo') return <Funnel list={list} onOpen={setOpen} onMove={(id, status) => update(id, { status })}
+    onNew={() => { setOpen('new'); setText(''); }} onNewHtml={() => setOpen('new-html')} ready={ready} />;
+
   // ---------- Vista CRM: lista por estado ----------
   const count = k => list.filter(p => p.status === k).length;
   const shown = filter === 'todas' ? list : list.filter(p => p.status === filter);
@@ -230,4 +233,78 @@ export default function Proposals({ sb, api, clients, flash, onClientsChange }) 
       </div>
     </>
   );
+}
+
+// ---------- Embudo: etapas en columnas, se arrastran las tarjetas ----------
+const STAGES = ['borrador', 'enviada', 'en_negociacion', 'aceptada'];
+const sumBy = ps => {
+  const out = {};
+  for (const p of ps) {
+    const inv = p.content?.inversion; if (!inv?.items?.length) continue;
+    const t = totals(inv), cur = inv.moneda === 'USD' ? 'USD' : 'ARS';
+    out[cur] = out[cur] || { unico: 0, mensual: 0 };
+    out[cur].unico += t.unico; out[cur].mensual += t.mensual;
+  }
+  return Object.entries(out).flatMap(([cur, v]) => [v.unico && money(v.unico, cur), v.mensual && `${money(v.mensual, cur)}/mes`].filter(Boolean));
+};
+const pct = (a, b) => b ? Math.round((a / b) * 100) + '%' : '—';
+
+function Funnel({ list, onOpen, onMove, onNew, onNewHtml, ready }) {
+  const [drag, setDrag] = useState(null), [over, setOver] = useState(null);
+  const by = k => list.filter(p => p.status === k);
+  const idx = k => STAGES.indexOf(k);
+  // Cuántas propuestas llegaron al menos a cada etapa (las rechazadas cuentan como enviadas)
+  const reached = STAGES.map((k, i) => list.filter(p => (p.status === 'rechazada' ? 1 : idx(p.status)) >= i).length);
+  const top = Math.max(reached[0], 1);
+  const sent = reached[1], won = by('aceptada').length, lost = by('rechazada').length, open = by('enviada').length + by('en_negociacion').length;
+  const drop = k => e => { e.preventDefault(); setOver(null); const id = drag || e.dataTransfer.getData('text/plain'); setDrag(null); const p = list.find(x => x.id === id); if (p && p.status !== k) onMove(id, k); };
+
+  return <>
+    <div className="pr-head">
+      <div className="fn-kpis">
+        <div><small>En curso</small><strong>{open}</strong><span>{sumBy([...by('enviada'), ...by('en_negociacion')]).join(' + ') || 'sin montos'}</span></div>
+        <div><small>Ganadas</small><strong>{won}</strong><span>{sumBy(by('aceptada')).join(' + ') || 'sin montos'}</span></div>
+        <div><small>Cierre</small><strong>{pct(won, won + lost)}</strong><span>aceptadas sobre decididas</span></div>
+        <div><small>Conversión</small><strong>{pct(won, sent)}</strong><span>aceptadas sobre enviadas</span></div>
+      </div>
+      <div className="pr-actions">
+        <button className="btn" onClick={onNew}>+ Nueva con Claude</button>
+        <button className="btn ghost" onClick={onNewHtml}>+ Pegar HTML</button>
+      </div>
+      {!ready && <p className="pr-warn" style={{ width: '100%' }}>Claude todavía no está conectado: falta cargar <b>ANTHROPIC_API_KEY</b> en Vercel (Settings → Environment Variables) y volver a publicar.</p>}
+    </div>
+
+    <div className="panel fn-chart">
+      <h3>Cómo avanzan tus propuestas</h3>
+      {STAGES.map((k, i) => { const s = STATUSES.find(x => x.k === k); return <div className="fn-step" key={k}>
+        <span className="fn-name">{s.label}</span>
+        <div className="fn-track"><div className="fn-bar" style={{ width: `${Math.max((reached[i] / top) * 100, reached[i] ? 6 : 0)}%`, background: s.color }} /></div>
+        <span className="fn-num"><b>{reached[i]}</b>{i > 0 && <small>{pct(reached[i], reached[i - 1])} de la anterior</small>}</span>
+      </div>; })}
+      <p className="pr-hint">Cada barra cuenta las propuestas que llegaron por lo menos a esa etapa. Las rechazadas ({lost}) se cuentan como enviadas.</p>
+    </div>
+
+    <div className="fn-board">
+      {STATUSES.map(s => { const ps = by(s.k), tot = sumBy(ps); return <section key={s.k} className={'fn-col' + (over === s.k ? ' over' : '')}
+        onDragOver={e => { e.preventDefault(); setOver(s.k); }} onDragLeave={e => { if (!e.currentTarget.contains(e.relatedTarget)) setOver(null); }} onDrop={drop(s.k)}>
+        <header><i style={{ background: s.color }} /><strong>{s.label}</strong><b>{ps.length}</b></header>
+        {tot.length > 0 && <p className="fn-tot">{tot.join(' + ')}</p>}
+        <div className="fn-cards">
+          {ps.map(p => <article key={p.id} className={'fn-card' + (drag === p.id ? ' dragging' : '')} draggable
+            onDragStart={e => { setDrag(p.id); e.dataTransfer.setData('text/plain', p.id); e.dataTransfer.effectAllowed = 'move'; }} onDragEnd={() => { setDrag(null); setOver(null); }}>
+            <button className="fn-open" onClick={() => onOpen(p)}>
+              <strong>{p.title || 'Propuesta sin título'}</strong>
+              <small>{p.client_name || 'Sin cliente'}</small>
+              {totalText(p.content) && <span className="fn-amt">{totalText(p.content)}</span>}
+              <small className="fn-date">{p.html != null && !p.content ? 'HTML · ' : ''}Actualizada {fmtDate(p.updated_at)}</small>
+            </button>
+            <select aria-label="Mover a otra etapa" value={p.status} onChange={e => onMove(p.id, e.target.value)}>
+              {STATUSES.map(x => <option key={x.k} value={x.k}>{x.label}</option>)}
+            </select>
+          </article>)}
+          {!ps.length && <p className="fn-empty">Soltá una propuesta acá</p>}
+        </div>
+      </section>; })}
+    </div>
+  </>;
 }

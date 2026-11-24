@@ -6,7 +6,7 @@ Ya viene lista en `public/index.html`, con el formulario conectado y los enlaces
 ## 2. Supabase
 1. Proyecto nuevo → SQL Editor → pegá y ejecutá `supabase/schema.sql`.
 2. Ejecutá también `supabase/roles.sql` (roles y permisos: solo los administradores ingresan al panel).
-3. Authentication → Users → "Add user" con tu email y contraseña. Luego desactivá el registro público (signups) en los ajustes de Authentication. Los usuarios nuevos se gestionan desde el panel, pestaña "Usuarios y permisos".
+3. Authentication → Users → "Add user" con tu email y contraseña. Luego desactivá el registro público (signups) en los ajustes de Authentication. Los usuarios nuevos se gestionan desde el panel, sección "Usuarios y permisos".
 4. Project Settings → API: copiá URL, anon key y service_role key.
 
 ## 3. Resend
@@ -20,5 +20,6 @@ Panel: `/admin` · Casos públicos: `/casos`
 ## 5. Propuestas con Claude
 1. Ejecutá `supabase/proposals_crm.sql` en Supabase.
 2. En Vercel cargá `ANTHROPIC_API_KEY` (la creás en console.anthropic.com). Opcional: `ANTHROPIC_MODEL` para cambiar el modelo.
-3. En el panel, pestaña "Propuestas (CRM)": escribile a Claude qué necesitás y arma la propuesta con el diseño de EMUNÁ. Cada propuesta tiene su página pública en `/propuesta/<código>` y un estado (borrador, enviada, en negociación, aceptada, rechazada).
+3. En el panel, sección "Propuestas" del menú lateral: escribile a Claude qué necesitás y arma la propuesta con el diseño de EMUNÁ. Cada propuesta tiene su página pública en `/propuesta/<código>` y un estado (borrador, enviada, en negociación, aceptada, rechazada).
 4. También podés cargar una propuesta hecha afuera: botón "+ Pegar HTML" (pegás el código o subís el .html). Se muestra aislada del resto del sitio en `/propuesta/<código>` y comparte estados, envío y botón de aceptar con las demás.
+5. Sección "Embudo": las propuestas en columnas por etapa (borrador → enviada → en negociación → aceptada / rechazada). Arrastrá una tarjeta a otra columna (o usá el selector en el celular) para cambiarle el estado. Arriba ves los montos en curso y ganados, la tasa de cierre y la conversión de cada etapa.
