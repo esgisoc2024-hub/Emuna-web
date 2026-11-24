@@ -144,13 +144,21 @@ body.mo{overflow:hidden}
 .pain p{color:var(--fog);max-width:26rem}.pain p b{color:var(--olive-l);font-weight:600}
 
 /* dos pilares */
-.pil{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:3.5rem}
-.pc{position:relative;border-radius:30px;overflow:hidden;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);isolation:isolate}
-.pc:nth-child(2){margin-top:4.5rem}
-.pc>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s var(--ease)}
-.pc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,6,6,.1) 0,rgba(6,6,6,.82) 40%,rgba(6,6,6,.97) 100%)}
-.pc:hover>img{transform:scale(1.05)}
-.pc .in{padding:clamp(1.4rem,3vw,2.4rem)}
+.pil{display:flex;gap:1.4rem;margin-top:3.5rem}
+.pc{position:relative;flex:1 1 0;min-width:0;border-radius:30px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start;border:1px solid var(--line);background:#0E0F0D;isolation:isolate;transition:flex-grow .8s var(--ease),border-color .4s}
+.pc>img{position:absolute;inset:0 0 auto 0;width:100%;height:270px;object-fit:cover;object-position:center 78%;filter:saturate(.85) brightness(.8);z-index:-2;transition:transform 1.2s var(--ease)}
+.pc::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,15,13,.15) 0,rgba(14,15,13,.35) 140px,#0E0F0D 270px)}
+@media(min-width:901px) and (hover:hover){
+ .pil:hover .pc,.pil:focus-within .pc{flex-grow:.78}
+ .pil .pc:hover,.pil .pc:focus-within{flex-grow:1.35;border-color:rgba(183,199,140,.45)}
+ .pc:hover>img,.pc:focus-within>img{transform:scale(1.05)}
+ .pc li span{transition:opacity .35s}
+ .pil:hover .pc:not(:hover) li span,.pil:focus-within .pc:not(:focus-within) li span{opacity:0}
+}
+.pc li b{font-weight:600;white-space:nowrap}
+@media(min-width:901px){.pc li span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}}
+.pc .in{padding:220px clamp(1.4rem,3vw,2.4rem) clamp(1.4rem,3vw,2.4rem);display:flex;flex-direction:column;flex:1}
+.pc .in .btn{align-self:flex-start;margin-top:auto}
 .pc h3{font-size:clamp(2rem,3.4vw,3rem)}
 .pc p{color:var(--fog);margin:.8rem 0 1.4rem;max-width:26rem}
 .pc ul{list-style:none;border-top:1px solid var(--line);margin-bottom:1.6rem}
@@ -275,7 +283,7 @@ footer{border-top:1px solid var(--line);padding:3.5rem 0 1.6rem;font-size:.94rem
  .hero .w,.rp .w,.fd .w,.fq .w,.ct .box{grid-template-columns:1fr}
  .hero{padding-top:7rem}.stack{height:440px;margin-top:1rem}
  .pain li{grid-template-columns:1fr;gap:.6rem}
- .pil{grid-template-columns:1fr}.pc:nth-child(2){margin-top:0}.pc{min-height:480px}
+ .pil{flex-direction:column}.pc{flex:none}
  .cd{width:80%}.cd[data-p="1"]{transform:translateX(16%) scale(.9)}.cd[data-p="2"]{transform:translateX(30%) scale(.8)}.cd[data-p="3"]{transform:translateX(42%) scale(.7)}
  .deck{height:480px}
  .tl{grid-template-columns:1fr;margin-top:3rem}.tl::before{left:7px;right:auto;top:0;bottom:0;width:1px;height:auto;background:linear-gradient(180deg,var(--olive-l),var(--line) 80%)}
@@ -337,11 +345,11 @@ footer{border-top:1px solid var(--line);padding:3.5rem 0 1.6rem;font-size:.94rem
 <div class="pil">
 <article class="pc"><img src="/img/pauta.jpg" alt="Tablero con métricas de campañas publicitarias" width="1200" height="800" loading="lazy"><div class="in">
 <h3>Tráfico y pauta</h3><p>Campañas en Meta y Google planificadas, medidas y ajustadas todas las semanas.</p>
-<ul><li>Meta Ads <span>Instagram y Facebook</span></li><li>Google Ads <span>Búsqueda, Shopping y remarketing</span></li><li>Embudos de venta <span>Del anuncio al WhatsApp</span></li><li>Medición <span>Qué funciona y cuánto cuesta</span></li></ul>
+<ul><li><b>Meta Ads</b> <span>Instagram y Facebook</span></li><li><b>Google Ads</b> <span>Búsqueda, Shopping y remarketing</span></li><li><b>Embudos de venta</b> <span>Del anuncio al WhatsApp</span></li><li><b>Medición</b> <span>Qué funciona y cuánto cuesta</span></li></ul>
 <a href="/servicios/marketing-paid-media" class="btn sm">Conocé el servicio</a></div></article>
 <article class="pc"><img src="/img/web.jpg" alt="Escritorio de diseño con dos pantallas" width="1200" height="800" loading="lazy"><div class="in">
 <h3>Diseño y desarrollo web</h3><p>Sitios rápidos, claros y hechos a medida, pensados para que quien entra te escriba.</p>
-<ul><li>Sitios web <span>Diseño propio, sin plantillas</span></li><li>Landing pages <span>Una página, un objetivo</span></li><li>Tiendas online <span>Catálogo, carrito y pagos</span></li><li>Sistemas a medida <span>Pedidos, turnos, paneles</span></li></ul>
+<ul><li><b>Sitios web</b> <span>Diseño propio, sin plantillas</span></li><li><b>Landing pages</b> <span>Una página, un objetivo</span></li><li><b>Tiendas online</b> <span>Catálogo, carrito y pagos</span></li><li><b>Sistemas a medida</b> <span>Pedidos, turnos, paneles</span></li></ul>
 <a href="/servicios/diseno-desarrollo-web" class="btn sm">Conocé el servicio</a></div></article>
 </div>
 <p class="also">También sumamos, cuando el proyecto lo pide: <a href="/servicios/branding-contenidos">Branding y contenidos</a><a href="#contacto" data-s="SEO y posicionamiento">SEO y posicionamiento</a><a href="#contacto" data-s="Consultoría y optimización">Consultoría y auditorías</a></p>
