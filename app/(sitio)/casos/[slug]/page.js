@@ -1,3 +1,4 @@
+import Marco from '../../Marco';
 import { notFound } from 'next/navigation';
 import { anon } from '@/lib/supabase';
 export const revalidate = 60;
@@ -12,9 +13,7 @@ export default async function Caso({ params }) {
   if (!c) notFound();
   const video = embed(c.video_url);
   return (
-    <main className="pub" style={{ maxWidth: 820 }}>
-      <div className="pub-fog" aria-hidden="true" />
-      <header className="pub-hd"><a href="/" aria-label="EMUNÁ, inicio"><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="143" height="42" /></a><a href="/casos" className="back">Todos los casos</a></header>
+    <Marco activo="proyectos"><div className="pub" style={{ maxWidth: 820 }}>
       <span className="eyebrow">{[c.service, c.client].filter(Boolean).join(', ')}</span>
       <h1>{c.title}</h1>
       <p style={{ fontSize: '1.15rem', color: 'var(--muted)' }}>{c.summary}</p>
@@ -24,6 +23,6 @@ export default async function Caso({ params }) {
       </div>
       {c.results && <><h2 style={{ fontSize: '2rem', margin: '1rem 0' }}>Resultados</h2><p style={{ whiteSpace: 'pre-line' }}>{c.results}</p></>}
       {/^https?:\/\//.test(c.site_url || '') && <p style={{ marginTop: '2rem' }}><a className="btn" href={c.site_url} target="_blank" rel="noopener noreferrer">Visitar el sitio</a></p>}
-    </main>
+    </div></Marco>
   );
 }

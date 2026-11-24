@@ -74,15 +74,8 @@ textarea{min-height:110px;resize:vertical}
 .pr-tip p{margin:0 0 .4rem}
 .pr-tip blockquote{margin:0;padding:.6rem .8rem;background:var(--paper);border-left:3px solid var(--gold);border-radius:8px;font-style:italic;user-select:all}
 /* casos públicos: tema oscuro igual que la portada. Todo va bajo .pub para no tocar el panel ni las propuestas */
-body:has(.pub){background:#060606}
 .pub{--line:rgba(241,235,221,.13);--cream:#F1EBDD;--fog:#A6A99E;--olive-l:#B7C78C;--muted:#A6A99E;
-  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--cream);position:relative;isolation:isolate;padding-top:1.2rem;-webkit-font-smoothing:antialiased}
-.pub-fog{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
-  radial-gradient(62vw 58vh at 92% -8%,rgba(176,178,168,.46),transparent 66%),
-  radial-gradient(52vw 66vh at -10% 42%,rgba(110,125,78,.40),transparent 66%),
-  radial-gradient(70vw 54vh at 66% 112%,rgba(150,151,144,.40),transparent 64%)}
-.pub-hd{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:clamp(3rem,7vw,5rem)}
-.pub-hd img{display:block;height:42px;width:auto}
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--cream);position:relative;isolation:isolate;padding-top:clamp(8.5rem,15vw,12rem);-webkit-font-smoothing:antialiased}
 .pub h1,.pub h2,.pub h3{font-family:"Fraunces",Georgia,serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:800;letter-spacing:-.03em;line-height:.98}
 .pub h1{font-size:clamp(2.6rem,6.2vw,5.4rem);margin:0 0 3rem}
 .pub h1 i{display:block;font-weight:300;color:var(--olive-l);margin-top:.06em}

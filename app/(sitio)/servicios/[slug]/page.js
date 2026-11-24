@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { SERVICES, CONTACT, getService } from '@/lib/services';
 import '../servicios.css';
+import Marco from '../../Marco';
 
 const IMG = { 'marketing-paid-media': '/img/pauta.jpg', 'diseno-desarrollo-web': '/img/web.jpg', 'branding-contenidos': '/img/boceto.jpg' };
 
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }) {
 export default async function Servicio({ params }) {
   const s = getService((await params).slug);
   if (!s) notFound();
-  const contact = `/?servicio=${encodeURIComponent(s.form)}#contacto`;
+  const contact = `/contacto?servicio=${encodeURIComponent(s.form)}`;
   const wa = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(`Hola EMUNÁ, quiero consultar por ${s.name}.`)}`;
   const others = SERVICES.filter(o => o.slug !== s.slug);
   const schema = {
@@ -26,26 +27,15 @@ export default async function Servicio({ params }) {
   };
 
   return (
-    <div className="sp">
+    <Marco activo="servicios"><div className="sp">
       <div className="s-fog" aria-hidden="true" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" precedence="default" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
-      <header className="s-hd"><div className="w">
-        <a href="/" className="s-logo" aria-label="EMUNÁ, inicio"><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="143" height="42" /></a>
-        <nav aria-label="Principal">
-          <a className="lk" href="/#servicios">Servicios</a>
-          <a className="lk" href="/#proyectos">Proyectos</a>
-          <a className="lk" href="/casos">Casos</a>
-          <a className="s-btn sm" href={contact}>Agendar reunión</a>
-        </nav>
-      </div></header>
 
-      <main>
+      <div>
         <section className="s-hero"><div className="w">
           <div>
-            <p className="s-crumb"><a href="/">Inicio</a> / <a href="/#servicios">Servicios</a> / {s.name}</p>
+            <p className="s-crumb"><a href="/">Inicio</a> / <a href="/servicios">Servicios</a> / {s.name}</p>
             <h1>{s.title} <span className="ital">{s.titleItal}</span></h1>
             <p className="lead">{s.lead}</p>
             <div className="s-cta">
@@ -101,15 +91,11 @@ export default async function Servicio({ params }) {
           <h2>Otros <span className="ital">servicios</span></h2>
           <div className="s-more">
             {others.map(o => <a key={o.slug} href={`/servicios/${o.slug}`} className={`c-${o.color}`}><h3>{o.name}</h3><span>Ver servicio</span></a>)}
-            <a href="/#servicios" className="all"><h3>Todos los servicios</h3><span>SEO, Google Ads, consultoría y más</span></a>
+            <a href="/servicios" className="all"><h3>Todos los servicios</h3><span>SEO, Google Ads, consultoría y más</span></a>
           </div>
         </div></section>
-      </main>
+      </div>
 
-      <footer className="s-ft"><div className="w">
-        <span>© {new Date().getFullYear()} EMUNÁ, Buenos Aires</span>
-        <nav aria-label="Pie"><a href="/">Inicio</a><a href="/casos">Casos</a><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></nav>
-      </div></footer>
-    </div>
+    </div></Marco>
   );
 }
