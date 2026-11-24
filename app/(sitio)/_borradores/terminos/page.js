@@ -1,4 +1,6 @@
-import Marco, { cabecera } from '../Marco';
+// BORRADOR: esta carpeta empieza con _ y por eso Next.js no la publica.
+// Para publicarla, completar los datos marcados con <mark class="tbd"> y mover la carpeta a app/(sitio)/.
+import Marco, { cabecera } from '../../Marco';
 import { CONTACT } from '@/lib/services';
 
 export const metadata = { title: 'Términos y condiciones | EMUNÁ', description: 'Condiciones de uso del sitio de EMUNÁ.' };

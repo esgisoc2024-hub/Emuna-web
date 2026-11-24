@@ -1,4 +1,6 @@
-import Marco, { cabecera } from '../Marco';
+// BORRADOR: esta carpeta empieza con _ y por eso Next.js no la publica.
+// Para publicarla, completar los datos marcados con <mark class="tbd"> y mover la carpeta a app/(sitio)/.
+import Marco, { cabecera } from '../../Marco';
 import { CONTACT } from '@/lib/services';
 
 export const metadata = { title: 'Política de privacidad | EMUNÁ', description: 'Cómo EMUNÁ trata los datos personales que nos dejás en el sitio.' };
@@ -35,6 +37,7 @@ const HTML = `${cabecera('Política de privacidad', 'Política <i>de privacidad.
 <li><b>Vercel:</b> alojamiento del sitio.</li>
 <li><b>Supabase:</b> base de datos donde se guardan las consultas y propuestas.</li>
 <li><b>Resend:</b> envío de los emails de confirmación y avisos.</li>
+<li><b>Meta y Google:</b> medición de visitas y de anuncios, si aceptás las cookies.</li>
 <li><b>Google Fonts:</b> tipografías del sitio; tu navegador se conecta a los servidores de Google para descargarlas.</li>
 </ul>
 <p>Algunos de estos proveedores tienen servidores fuera de la Argentina. Al enviarnos tus datos, aceptás que se alojen en ellos.</p>
@@ -42,8 +45,14 @@ const HTML = `${cabecera('Política de privacidad', 'Política <i>de privacidad.
 <h2>Cuánto tiempo los guardamos</h2>
 <p>Guardamos los datos de tu consulta mientras dure la conversación o la relación comercial, y hasta dos años después del último contacto. Pasado ese plazo los eliminamos, salvo que la ley nos obligue a conservarlos.</p>
 
-<h2>Cookies</h2>
-<p>Hoy este sitio no usa cookies de publicidad ni de medición. Si en el futuro las sumamos, vamos a actualizar esta política y pedirte tu consentimiento.</p>
+<h2>Cookies y medición</h2>
+<p>Usamos herramientas de medición para saber cómo se usa el sitio y cómo funcionan nuestros anuncios:</p>
+<ul>
+<li><b>Píxel de Meta:</b> registra visitas y acciones en el sitio (por ejemplo, si enviaste el formulario) para medir y mejorar nuestros anuncios en Facebook e Instagram.</li>
+<li><b>Google Analytics:</b> nos muestra de forma estadística cuántas personas visitan el sitio, desde dónde llegan y qué páginas miran.</li>
+</ul>
+<p>Estas herramientas usan cookies y se activan solo si las aceptás en el aviso que aparece al entrar al sitio. Podés cambiar tu elección cuando quieras desde el enlace "Preferencias de cookies" al pie de la página, o borrar las cookies desde la configuración de tu navegador.</p>
+<p>Meta y Google tratan esos datos según sus propias políticas de privacidad.</p>
 
 <h2>Tus derechos</h2>
 <p>Podés pedirnos en cualquier momento acceder a tus datos, corregirlos, actualizarlos o eliminarlos, escribiendo a <a href="mailto:${CONTACT.email}">${CONTACT.email}</a>. Respondemos los pedidos de acceso dentro de los 10 días corridos y los de corrección o eliminación dentro de los 5 días hábiles.</p>

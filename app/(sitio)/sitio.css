@@ -254,7 +254,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--olive-l)
 .er{grid-column:1/-1;display:none;background:rgba(217,165,74,.12);border:1px solid rgba(217,165,74,.45);padding:1rem;border-radius:14px}.er.show{display:block}.er a{text-decoration:underline}
 
 footer{border-top:1px solid var(--line);padding:3.5rem 0 1.6rem;font-size:.94rem;color:var(--fog);margin-top:clamp(4rem,8vw,7rem)}
-.fg{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:2rem}
+.fg{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:2rem}
 .fg h4{color:var(--cream);font-weight:600;margin-bottom:.6rem;font-size:.94rem}
 .fg a{display:block;padding:.18rem 0;transition:color .2s}.fg a:hover{color:var(--cream)}.fg p{max-width:20rem;margin-top:.8rem}
 .fb{margin-top:2.5rem;padding-top:1.2rem;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.85rem}

@@ -33,8 +33,7 @@ const pie = () => `
 <footer><div class="w fg"><div><img src="/logo-horizontal-claro.svg" alt="EMUNÁ" width="170" height="50"><p>Estudio boutique de publicidad digital y diseño web en Buenos Aires.</p></div>
 <div><h4>Servicios</h4><a href="/servicios/marketing-paid-media">Tráfico y pauta</a><a href="/servicios/diseno-desarrollo-web">Diseño y desarrollo web</a><a href="/servicios/branding-contenidos">Branding y contenidos</a><a href="/servicios">Todos los servicios</a></div>
 <div><h4>Estudio</h4><a href="/proyectos">Proyectos</a><a href="/casos">Casos</a><a href="/como-trabajamos">Cómo trabajamos</a><a href="/nosotros">Nosotros</a><a href="/preguntas">Preguntas</a></div>
-<div><h4>Contacto</h4><a href="/contacto">Formulario</a><a href="${MAIL}">Email</a><a href="${WA}" ${EXT}>WhatsApp</a><a href="${CONTACT.instagram}" ${EXT}>Instagram</a></div>
-<div><h4>Legal</h4><a href="/privacidad">Política de privacidad</a><a href="/terminos">Términos y condiciones</a></div></div>
+<div><h4>Contacto</h4><a href="/contacto">Formulario</a><a href="${MAIL}">Email</a><a href="${WA}" ${EXT}>WhatsApp</a><a href="${CONTACT.instagram}" ${EXT}>Instagram</a></div></div>
 <div class="w fb"><span>© ${new Date().getFullYear()} EMUNÁ, Buenos Aires</span><span>Fotos de ilustración: Unsplash. <a href="/admin" style="opacity:.7">Acceso</a></span></div></footer>
 <a href="${WA}" class="wa-f" ${EXT} aria-label="Escribir por WhatsApp">${WA_ICON}</a>`;
 
